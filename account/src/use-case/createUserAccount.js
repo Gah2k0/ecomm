@@ -1,15 +1,13 @@
-const userAccounts = []
+export const userAccounts = []
 
-function createUserUseCase(user){
+export function createUserUseCase(name, email, password){
     const createdUserAccount = {
         id: userAccounts.length + 1,
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        createdDate: Date()
+        name: name,
+        email: email,
+        password: password,
+        createdDate: new Date().toLocaleDateString("pt-BR")
     };
     userAccounts.push(createdUserAccount);
     return createdUserAccount;
-}
-
-export { createUserUseCase };
+};
