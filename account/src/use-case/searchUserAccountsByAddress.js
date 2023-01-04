@@ -1,7 +1,9 @@
 import { userAccounts } from "./createUserAccount.js";
 
 export function searchUserAccountsByAddressUseCase(address){
-    const searchedUsers = userAccounts.filter(userAccount => userAccount.address.uf === address);
+    const searchedUsersWithAddresses = userAccounts.filter(userAccount => userAccount.hasOwnProperty("address"));
 
-    return searchedUsers;
+    const filteredSearchedUsers = searchedUsersWithAddresses.filter(userAccount => userAccount.address.uf === address);
+
+    return filteredSearchedUsers;
 }

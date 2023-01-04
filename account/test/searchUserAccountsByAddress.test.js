@@ -14,4 +14,4 @@ addUserAddressUseCase("jose@email.com", "Rua Bonita", 101, "Casa", "Qualquer Bai
 addUserAddressUseCase("gandalf@email.com", "Rua Lindinha", 101, "Casa", "Qualquer Bairro", "94015-380", "São Paulo", "SP");
 addUserAddressUseCase("bolsao@email.com", "Bolsão", 101, "Casa", "Vila dos Hobbits", "94015-380", "Condado", "SP");
 
-console.log(searchUserAccountsByAddressUseCase("SP"));
+console.log(searchUserAccountsByAddressUseCase("MG"));
