@@ -1,0 +1,13 @@
+{
+  "name": "account",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test/createUserAccount.test.js",
+  "scripts": {
+    "start": "node test/createUserAccount.test.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gabriel Francisco",
+  "license": "ISC",
+  "type": "module"
+}
