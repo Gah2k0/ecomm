@@ -1,0 +1,37 @@
+use ecomm;
+
+db.categories.insertMany([
+    {
+        nome: "INFORMÁTICA",
+        status: true
+    },
+    {
+        nome: "BELEZA",
+        status: false
+    },
+    {
+        nome: "CELULARES",
+        status: true
+    },
+    {
+        nome: "MÓVEIS",
+        status: true
+    },
+    {
+        nome: "LUXO",
+        status: false
+    },
+    {
+        nome: "ESPORTE",
+        status: false
+    },
+    {
+        nome: "AUTOMOTIVA",
+        status: true
+    },
+    {
+        nome: "LIVROS",
+        status: true
+    },
+]);
+

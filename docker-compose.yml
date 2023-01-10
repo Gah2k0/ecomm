@@ -6,3 +6,11 @@ services:
   account:
     build: ./account/
 
+  mongodb:
+    container_name: mongo-ecomm
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - "27017:27017"
