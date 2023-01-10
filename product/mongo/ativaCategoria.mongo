@@ -1,0 +1,2 @@
+use ecomm;
+db.categories.updateOne({"nome": "ESPORTE"}, {$set: {"status": true}});
