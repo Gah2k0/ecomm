@@ -1,3 +1,4 @@
+use ecomm
 db.products.find(
     { 
         "price": 
