@@ -1,2 +1,2 @@
 use ecomm
-db.categories.updateOne({"nome": "ESPORTE"}, {$set: {"status": true}});
+db.categories.updateOne({"name": "ESPORTE"}, {$set: {"status": true}});
