@@ -1,0 +1,2 @@
+use ecomm
+db.products.find({"quantity": {$gte: 3}});

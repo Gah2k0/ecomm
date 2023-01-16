@@ -1,0 +1,15 @@
+use ecomm
+db.products.find(
+    { 
+        "price": 
+        {
+            $lte: 2000.00, 
+            $gte: 1000.00
+        }, 
+    },
+    {
+        name: 1,
+        _id: 1,
+        price: 1
+    }
+);

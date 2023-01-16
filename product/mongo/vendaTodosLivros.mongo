@@ -1,0 +1,2 @@
+use ecomm
+db.products.updateMany({"category.name": "LIVROS"}, {$set: {"quantity": 0}})

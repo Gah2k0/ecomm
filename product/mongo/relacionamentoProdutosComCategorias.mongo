@@ -1,0 +1,11 @@
+use ecomm
+db.products.find({}).forEach(function(product) {
+    let category = db.categories.findOne({"name": product.category});
+
+    product.category = {
+        name: category.name,
+        _id: category._id
+    };
+    
+    db.products.replaceOne( {"_id": product._id}, product )
+})
