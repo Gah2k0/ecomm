@@ -1,0 +1,36 @@
+use ecomm-order
+
+db.orders.insertMany([
+    {
+        createdAt: Date(),
+        customer: {
+            _id: ObjectId('63c6a3dca02317131691fcb8'),
+            name: "Gabriel"
+        },
+        deliveryAddress: {
+            street: "Rua Otávio Rola",
+            number: "200",
+            complement: "Casa",
+            district: "Nova Estação",
+            cep: "69918-388",
+            city: "Rio Branco",
+            uf: "AC"
+        },
+        orderItens: [
+            {
+                name: "Clean Architecture",
+                _id: ObjectId('63c6a341a02317131691fcaa'),
+                quantity: 1,
+                price: 102.9,
+                discount: 0,
+            },
+            {
+                name: "Notebook Samsung",
+                _id: ObjectId('63c6a341a02317131691fca8'),
+                quantity: 1,
+                price: 3523,
+                discount: 20,
+            }
+        ]
+    },
+])
