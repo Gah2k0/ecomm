@@ -1,11 +1,16 @@
+use ecomm-account
+
+let user = db.users.findOne({ cpf: "330.718.700-78"});
+let userTwo = db.users.findOne({ cpf: "134.612.680-11"});
+
 use ecomm-order
 
 db.orders.insertMany([
     {
         createdAt: Date(),
         customer: {
-            _id: ObjectId('63c6a3dca02317131691fcb8'),
-            name: "Gabriel"
+            _id: user._id,
+            name: user.name
         },
         deliveryAddress: {
             street: "Rua Otávio Rola",
@@ -30,6 +35,38 @@ db.orders.insertMany([
                 quantity: 1,
                 price: 3523,
                 discount: 20,
+            }
+        ]
+    },
+    {
+        createdAt: Date(),
+        customer: {
+            _id: userTwo._id,
+            name: userTwo.name
+        },
+        deliveryAddress: {
+            street: "Rua Otávio Rola",
+            number: "200",
+            complement: "Casa",
+            district: "Nova Estação",
+            cep: "69918-388",
+            city: "Rio Branco",
+            uf: "AC"
+        },
+        orderItens: [
+            {
+                name: "Sofá 3 lugares",
+                _id: ObjectId("63c6a341a02317131691fca9"),
+                quantity: 1,
+                price: 2500,
+                discount: 500,
+            },
+            {
+                name: "Mesa de jantar 6 lugares",
+                _id: ObjectId("63c6a341a02317131691fcab"),
+                quantity: 1,
+                price: 3678.98,
+                discount: 1000,
             }
         ]
     },
