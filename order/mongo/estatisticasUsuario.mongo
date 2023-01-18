@@ -1,0 +1,43 @@
+db.orders.aggregate( [
+   {
+       $match: { }
+   },
+   {
+      $project: 
+       { 
+           customer: "$customer", 
+           TotalItens: { $sum: "$orderItens.quantity" },
+           TotalItensPrice : {
+               $sum: "$orderItens.price"
+               },
+           TotalItensDiscounts: {
+               $sum: "$orderItens.discount" 
+               } 
+       }
+   }
+] )
+
+
+/// teste 
+db.orders.aggregate( [
+   {
+       $match: { }
+   },
+   {
+       $group: { "_id": "$customer" },
+       
+   },
+   {
+      $project: 
+       { 
+           customer: "$customer", 
+           TotalItens: { $sum: "$orderItens.quantity" },
+           TotalItensPrice : {
+               $sum: "$orderItens.price"
+               },
+           TotalItensDiscounts: {
+               $sum: "$orderItens.discount" 
+               } 
+       }
+   }
+] )

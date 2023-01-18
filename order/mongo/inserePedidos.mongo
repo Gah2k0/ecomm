@@ -1,9 +1,9 @@
-use ecomm-account
+use("ecomm-account")
 
 let user = db.users.findOne({ cpf: "330.718.700-78"});
 let userTwo = db.users.findOne({ cpf: "134.612.680-11"});
 
-use ecomm-order
+use("ecomm-order")
 
 db.orders.insertMany([
     {
