@@ -21,19 +21,19 @@ db.orders.insertMany([
             city: "Rio Branco",
             uf: "AC"
         },
-        orderItens: [
+        itens: [
             {
                 name: "Clean Architecture",
                 _id: ObjectId('63c6a341a02317131691fcaa'),
-                quantity: 1,
-                price: NumberDecimal("102.9"),
+                stockQuantity: 1,
+                unitPrice: NumberDecimal("102.9"),
                 discount: NumberDecimal("0"),
             },
             {
                 name: "Notebook Samsung",
                 _id: ObjectId('63c6a341a02317131691fca8'),
-                quantity: 1,
-                price: NumberDecimal("3523"),
+                stockQuantity: 1,
+                unitPrice: NumberDecimal("3523"),
                 discount: NumberDecimal("20"),
             }
         ]
@@ -53,19 +53,19 @@ db.orders.insertMany([
             city: "Rio Branco",
             uf: "AC"
         },
-        orderItens: [
+        itens: [
             {
                 name: "Sofá 3 lugares",
                 _id: ObjectId("63c6a341a02317131691fca9"),
-                quantity: 1,
-                price: NumberDecimal("2500"),
+                stockQuantity: 1,
+                unitPrice: NumberDecimal("2500"),
                 discount: NumberDecimal("500"),
             },
             {
                 name: "Mesa de jantar 6 lugares",
                 _id: ObjectId("63c6a341a02317131691fcab"),
-                quantity: 1,
-                price: NumberDecimal("3678.98"),
+                stockQuantity: 1,
+                unitPrice: NumberDecimal("3678.98"),
                 discount: NumberDecimal("1000"),
             }
         ]
