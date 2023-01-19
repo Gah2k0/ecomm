@@ -1,43 +1,23 @@
+use("ecomm-order")
 db.orders.aggregate( [
    {
        $match: { }
+   },
+   {
+    $unwind: "$orderItens" 
    },
    {
       $project: 
        { 
            customer: "$customer", 
            TotalItens: { $sum: "$orderItens.quantity" },
-           TotalItensPrice : {
-               $sum: "$orderItens.price"
-               },
+           TotalItensPrice : { $multiply: ["$orderItens.quantity", "$orderItens.price"] },
            TotalItensDiscounts: {
                $sum: "$orderItens.discount" 
                } 
        }
-   }
-] )
-
-
-/// teste 
-db.orders.aggregate( [
-   {
-       $match: { }
    },
-   {
-       $group: { "_id": "$customer" },
-       
-   },
-   {
-      $project: 
-       { 
-           customer: "$customer", 
-           TotalItens: { $sum: "$orderItens.quantity" },
-           TotalItensPrice : {
-               $sum: "$orderItens.price"
-               },
-           TotalItensDiscounts: {
-               $sum: "$orderItens.discount" 
-               } 
-       }
+    {
+       $group: { "_id": "$customer", TotalPrice: { $sum: "$TotalItensPrice"}, TotalDiscounts: { $sum: "$TotalItensDiscounts"}, TotalItens: { $sum: "$TotalItens"}},
    }
 ] )
