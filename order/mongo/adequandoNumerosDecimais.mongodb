@@ -1,0 +1,7 @@
+use("ecomm-order")
+db.orders.find().forEach(order => {
+    order.itens.forEach(item => {
+        item.unitPrice = NumberDecimal(item.unitPrice)
+    })
+    db.orders.replaceOne({_id: order._id}, order)
+})

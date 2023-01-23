@@ -1,0 +1,58 @@
+use("ecomm-account")
+
+db.users.insertMany([
+    {
+        name: "Gabriel",
+        email: "gabriel@email.com",
+        password: "12345678",
+        createdAt: new Date("2001-05-10"),
+        cpf: "330.718.700-78",
+        phone: "991274288",
+        address: 
+        {
+            street: "Rua Cícero Hermínio",
+            number: "100",
+            complement: "Casa",
+            district: "Cristo Redentor",
+            cep: "60311-210",
+            city: "Fortaleza",
+            uf: "CE"
+        }
+    },
+    {
+        name: "Paula",
+        email: "paula@email.com",
+        password: "12345678",
+        createdAt: new Date("2001-05-27"),
+        cpf: "134.612.680-11",
+        phone: "991274282",
+        address: 
+        {
+            street: "Rua Otávio Rola",
+            number: "200",
+            complement: "Casa",
+            district: "Nova Estação",
+            cep: "69918-388",
+            city: "Rio Branco",
+            uf: "AC"
+        }
+    },
+    {
+        name: "José",
+        email: "jose@email.com",
+        password: "12345678",
+        createdAt: new Date("1995-12-10"),
+        cpf: "810.987.750-82",
+        phone: "991274289",
+        address: 
+        {
+            street: "Rua R 9",
+            number: "300",
+            complement: "Apartamento",
+            district: "Vila Itatiaia",
+            cep: "74690-350",
+            city: "Goiânia",
+            uf: "GO"
+        }
+    },
+])
