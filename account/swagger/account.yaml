@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Ecomm - Account
+  description: API para controle de contas do Ecomm
+  version: 0.0.1
+paths:
+  /api/accounts:
+    get:
+      summary: Retorna todos os usuários existentes.
+      responses: 
+        200: 
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Accounts"
+        404:
+          description: Nenhum usuário encontrado
+          content:
+            application/json:
+              example: "Not Found"
+  /api/accounts/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    get:
+      summary: Recupera um usuário por ID
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        404:
+          description: Usuário não encontrado
+          content:
+            application/json:
+              example: "Not Found"
+  /api/admin/accounts:
+    post:
+      summary: Cria um novo usuário.
+      requestBody:
+        content:
+          application/json:
+            schema:   
+              $ref: "#/components/schemas/Account"
+      responses:
+        201: 
+          description: Usuário criado com sucesso!
+    put:
+      summary: Atualiza um usuário.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Account"
+      responses:
+        200:
+          description: Usuário atualizado com sucesso!
+  /api/admin/accounts/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    delete:
+      summary: Apaga um usuário.
+      responses: 
+        200:
+          description: Usuário apagado com sucesso.
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+        name: 
+          type: string
+        email: 
+          type: string
+        password: 
+          type: string
+        cpf: 
+          type: string
+        phone: 
+          type: string
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            number:
+              type: string
+            complement:
+              type: string
+            cep:
+              type: string
+            city:
+              type: string
+            uf:
+              type: string
+    Accounts:
+      type: array
+      items:
+        $ref: "#/components/schemas/Account"
