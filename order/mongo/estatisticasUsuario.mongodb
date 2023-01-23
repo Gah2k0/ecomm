@@ -4,16 +4,16 @@ db.orders.aggregate( [
        $match: { }
    },
    {
-    $unwind: "$orderItens" 
+    $unwind: "$itens" 
    },
    {
       $project: 
        { 
            customer: "$customer", 
-           TotalItens: { $sum: "$orderItens.quantity" },
-           TotalItensPrice : { $multiply: ["$orderItens.quantity", "$orderItens.price"] },
+           TotalItens: { $sum: "$itens.quantity" },
+           TotalItensPrice : { $multiply: ["$itens.quantity", "$itens.unitPrice"] },
            TotalItensDiscounts: {
-               $sum: "$orderItens.discount" 
+               $sum: "$itens.discount" 
                } 
        }
    },

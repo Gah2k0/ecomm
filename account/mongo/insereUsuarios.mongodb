@@ -1,4 +1,4 @@
-use ecomm-account
+use("ecomm-account")
 
 db.users.insertMany([
     {

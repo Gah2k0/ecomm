@@ -1,12 +1,12 @@
-use ecomm
+use("ecomm")
 db.products.updateOne(
     {
         slug: "tablet-galaxy-tab-s8",
-        quantity: { $gte: 2 }
+        stockQuantity: { $gte: 2 }
     }, 
     {
         $inc: {
-            quantity: - 2
+            stockQuantity: - 2
         }
     }
 );

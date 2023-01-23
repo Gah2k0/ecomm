@@ -25,14 +25,14 @@ db.orders.insertMany([
             {
                 name: "Clean Architecture",
                 _id: ObjectId('63c6a341a02317131691fcaa'),
-                stockQuantity: 1,
+                quantity: 1,
                 unitPrice: NumberDecimal("102.9"),
                 discount: NumberDecimal("0"),
             },
             {
                 name: "Notebook Samsung",
                 _id: ObjectId('63c6a341a02317131691fca8'),
-                stockQuantity: 1,
+                quantity: 1,
                 unitPrice: NumberDecimal("3523"),
                 discount: NumberDecimal("20"),
             }
@@ -57,14 +57,14 @@ db.orders.insertMany([
             {
                 name: "Sofá 3 lugares",
                 _id: ObjectId("63c6a341a02317131691fca9"),
-                stockQuantity: 1,
+                quantity: 1,
                 unitPrice: NumberDecimal("2500"),
                 discount: NumberDecimal("500"),
             },
             {
                 name: "Mesa de jantar 6 lugares",
                 _id: ObjectId("63c6a341a02317131691fcab"),
-                stockQuantity: 1,
+                quantity: 1,
                 unitPrice: NumberDecimal("3678.98"),
                 discount: NumberDecimal("1000"),
             }

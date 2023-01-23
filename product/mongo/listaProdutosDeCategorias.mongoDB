@@ -1,10 +1,10 @@
-use ecomm
+use("ecomm")
 db.products.find({
     category: { $in: [ "LIVROS", "CELULARES" ] }
 });
 
 // filtro por categorias após modelagem 
-use ecomm
+use("ecomm")
 db.products.find({
     "category.name": { $in: [ "LIVROS", "CELULARES" ] }
 });

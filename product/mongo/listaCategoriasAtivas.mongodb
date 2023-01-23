@@ -1,2 +1,2 @@
-use ecomm
+use("ecomm")
 db.categories.find({"status": true});

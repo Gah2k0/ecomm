@@ -1,2 +1,2 @@
-use ecomm
+use("ecomm")
 db.products.createIndex({slug: 1}, {unique: true});
