@@ -47,7 +47,7 @@ paths:
         content:
           application/json:
             schema:   
-              $ref: "#/components/schemas/Account"
+              $ref: "#/components/schemas/Create-Account"
       responses:
         201: 
           description: Usuário criado com sucesso!
@@ -75,11 +75,9 @@ paths:
           description: Usuário apagado com sucesso.
 components:
   schemas:
-    Account:
+    Create-Account:
       type: object
       properties:
-        id:
-          type: string
         name: 
           type: string
         email: 
@@ -105,7 +103,17 @@ components:
               type: string
             uf:
               type: string
+    Account: 
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+        - $ref: "#/components/schemas/Create-Account"
     Accounts:
       type: array
       items:
-        $ref: "#/components/schemas/Account"
+       $ref: "#/components/schemas/Account"
+
+
