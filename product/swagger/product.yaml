@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Ecomm - Product
-  description: API to control the products of the Ecomm project
+  description: API to create, search, update and delete products and categories from the Product API
   version: 0.0.1
 paths:
   /api/categories:

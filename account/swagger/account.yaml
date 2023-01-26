@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Ecomm - Account
-  description: API to control the accounts of the Ecomm Project
+  description: API to create, update and search the accounts of the Account API 
   version: 0.0.1
 paths:
   /api/accounts:

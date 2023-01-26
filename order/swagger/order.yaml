@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Ecomm - Order
-  description: API to control the orders of the Ecomm Project
+  description: API to create and search for orders of the Order API
   version: 0.0.1
 paths:
   /api/orders:
