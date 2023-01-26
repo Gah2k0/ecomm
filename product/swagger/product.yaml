@@ -1,21 +1,22 @@
 openapi: 3.0.3
 info:
   title: Ecomm - Product
-  description: API para controle de produtos do Ecomm
+  description: API to control the products of the Ecomm project
   version: 0.0.1
 paths:
   /api/categories:
     get:
-      summary: Retorna todas as categorias cadastradas.
+      summary: Search for Categories.
+      description: Return all the existing categories.
       responses: 
         200: 
-          description: Sucesso
+          description: Success!
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Categories"
         404:
-          description: Nenhuma categoria cadastrada
+          description: No category found
           content:
             application/json:
               example: "Not Found"
@@ -27,22 +28,24 @@ paths:
         type: string
       required: true
     get:
-      summary: Recupera uma categoria pelo ID
+      summary: Search for a specific category
+      description: Return a specified category using its ID as a parameter
       responses:
         200:
-          description: Sucesso
+          description: Success!
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Category"
         404:
-          description: Categoria não encontrada.
+          description: Category not found
           content:
             application/json:
               example: "Not Found"
   /api/admin/categories:
     post:
-      summary: Cria uma nova categoria.
+      summary: Creates a new category
+      description: Receives a new category to save in the database
       requestBody:
         content:
           application/json:
@@ -53,13 +56,14 @@ paths:
                   type: string
       responses:
         201: 
-          description: Categoria criada com sucesso!
+          description: Category successfully created!
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Category"
     put:
-      summary: Atualiza uma categoria.
+      summary: Updates a category.
+      description: Updates a existing category.
       requestBody:
         content:
           application/json:
@@ -67,7 +71,7 @@ paths:
               $ref: "#/components/schemas/Category"
       responses:
         200:
-          description: Categoria atualizada com sucesso!
+          description: Category successfully updated!
   /api/admin/categories/{id}:
     parameters:
     - name: id
@@ -76,27 +80,51 @@ paths:
         type: string
       required: true
     patch:
-      summary: Ativa uma categoria.
+      summary: Activates a category
+      description: Activates a category status by turning it "true" or "false"
       responses:
         200:
-          description: Categoria ativada com sucesso!
+          description: Category successfully activated!
     delete:
-      summary: Deleta uma categoria.
+      summary: Deletes a category
+      description: Deletes a specific category using its ID as a parameter.
       responses:
         200:
-          description: Categoria apagada com sucesso!
+          description: Category successfully deleted!
   /api/products:
     get:
-      summary: Retorna todos os produtos cadastrados.
+      summary: Returns all existing products.
+      description: Returns all existing products using queries or not.
+      parameters:
+        - name: maxPrice
+          in: query
+          description: The max price of the products
+          schema: 
+            type: number
+        - name: minimumPrice
+          in: query
+          description: The minimum price of the products
+          schema: 
+            type: number
+        - name: category
+          in: query
+          description: The category of the products
+          schema: 
+            type: number
+        - name: minimumStockQuantity
+          in: query
+          description: Show products that have more stock quantity than the specified value
+          schema: 
+            type: number
       responses: 
         200: 
-          description: Sucesso
+          description: Success!
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Products"
         404:
-          description: Nenhum produto cadastrado
+          description: Products not found
           content:
             application/json:
               example: "Not Found"
@@ -108,19 +136,21 @@ paths:
         type: string
       required: true
     get:
-      summary: Busca um produto por ID.
+      summary: Searches a product by ID.
+      description: Searches for a specific product using its ID as a parameter
       responses:
         200:
-          description: Sucesso!
+          description: Success!
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Product"
         404:
-          description: Produto não encontrado.
+          description: Product not found.
   /api/admin/products:
     post:
-      summary: Cadastra um novo produto.
+      summary: Creates a new Product
+      description: Receives a new product and saves it in the database
       requestBody:
         content:
           application/json:
@@ -128,14 +158,15 @@ paths:
               $ref: "#/components/schemas/Product"
       responses: 
         201: 
-          description: Produto cadastrado com sucesso!
-        404:
-          description: ERRO! Produto não foi cadastrado, contate o suporte.
+          description: Product successfully created!
+        500:
+          description: ERROR! Product could not be created, contact the support.
           content:
             application/json:
-              example: "Not Found"
+              example: "ERROR"
     put:
-      summary: Altera os dados de um produto.
+      summary: Updates a product
+      description: Updates a existing product
       requestBody:
         content:
           application/json:
@@ -143,9 +174,9 @@ paths:
               $ref: "#/components/schemas/Product"
       responses: 
         201: 
-          description: Produto alterado com sucesso!
+          description: Product successfully updated!
         404:
-          description: ERRO! Produto não encontrado, contate o suporte.
+          description: ERROR! Product could not be found for updating, contact the support.
           content:
             application/json:
               example: "Not Found"
@@ -157,10 +188,11 @@ paths:
         type: string
       required: true
     delete:
-      summary: Deleta um produto.
+      summary: Deletes a product
+      description: Deletes a product using its ID
       responses:
         200:
-          description: Produto apagado com sucesso!
+          description: Product successfully deleted!
 components:
   schemas:
     Category:
@@ -197,4 +229,3 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Product"
-                    

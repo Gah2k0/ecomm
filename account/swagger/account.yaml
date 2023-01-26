@@ -1,21 +1,22 @@
 openapi: 3.0.3
 info:
   title: Ecomm - Account
-  description: API para controle de contas do Ecomm
+  description: API to control the accounts of the Ecomm Project
   version: 0.0.1
 paths:
   /api/accounts:
     get:
-      summary: Retorna todos os usuários existentes.
+      summary: Returns users
+      description: Returns all the existing users
       responses: 
         200: 
-          description: Sucesso
+          description: Success!
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Accounts"
         404:
-          description: Nenhum usuário encontrado
+          description: No user found
           content:
             application/json:
               example: "Not Found"
@@ -27,22 +28,24 @@ paths:
         type: string
       required: true
     get:
-      summary: Recupera um usuário por ID
+      summary: Searches for an user
+      description: Searches for a specific user using its ID as a parameter
       responses:
         200:
-          description: Sucesso
+          description: Success!
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Account"
         404:
-          description: Usuário não encontrado
+          description: User not found
           content:
             application/json:
               example: "Not Found"
   /api/admin/accounts:
     post:
-      summary: Cria um novo usuário.
+      summary: Creates a new user
+      description: Receives a new user and saves it in the database
       requestBody:
         content:
           application/json:
@@ -50,17 +53,18 @@ paths:
               $ref: "#/components/schemas/Create-Account"
       responses:
         201: 
-          description: Usuário criado com sucesso!
+          description: User successfully created!
     put:
-      summary: Atualiza um usuário.
+      summary: Updates an user
+      description: Updates an existing user user
       requestBody:
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/Account"
       responses:
-        200:
-          description: Usuário atualizado com sucesso!
+        404:
+          description: User successfully updated!
   /api/admin/accounts/{id}:
     parameters:
     - name: id
@@ -69,10 +73,11 @@ paths:
         type: string
       required: true
     delete:
-      summary: Apaga um usuário.
+      summary: Deletes an user.
+      description: Deletes an user using its ID.
       responses: 
         200:
-          description: Usuário apagado com sucesso.
+          description: User successfully deleted!
 components:
   schemas:
     Create-Account:
