@@ -128,17 +128,17 @@ paths:
       parameters:
         - name: maxPrice
           in: query
-          description: The max price of the products
+          description: The products max price
           schema: 
             type: number
         - name: minimumPrice
           in: query
-          description: The minimum price of the products
+          description: The products minimum price
           schema: 
             type: number
         - name: category
           in: query
-          description: The category of the products
+          description: The products category
           schema: 
             type: number
         - name: minimumStockQuantity
@@ -201,7 +201,7 @@ paths:
         200: 
           description: Product successfully updated!
         404:
-          description: Category not found
+          description: Product not found
           content:
             application/json:
               example: "Not Found"
@@ -219,7 +219,7 @@ paths:
         200:
           description: Product successfully deleted!
         404:
-          description: Category not found
+          description: Product not found
           content:
             application/json:
               example: "Not Found"
@@ -228,7 +228,7 @@ components:
     Category:
       type: object
       properties:
-        _id:
+        id:
           type: string
         name: 
           type: string

@@ -71,7 +71,7 @@ paths:
             application/json:
               example: "ERROR"
         404:
-          description: Category not found
+          description: User not found
           content:
             application/json:
               example: "Not Found"
@@ -89,7 +89,7 @@ paths:
         200:
           description: User successfully deleted!
         404:
-          description: Category not found
+          description: User not found
           content:
             application/json:
               example: "Not Found"
