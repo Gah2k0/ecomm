@@ -61,6 +61,13 @@ paths:
           content:
             application/json:
               example: "ERROR"
+  /api/admin/categories/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
     put:
       summary: Updates a category.
       description: Updates a existing category.
@@ -82,13 +89,6 @@ paths:
           content:
             application/json:
               example: "Not Found"
-  /api/admin/categories/{id}:
-    parameters:
-    - name: id
-      in: path
-      schema:
-        type: string
-      required: true
     patch:
       summary: Activates a category
       description: Activates a category status by turning it "true" or "false"
@@ -189,6 +189,13 @@ paths:
           content:
             application/json:
               example: "ERROR"
+  /api/admin/products/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
     put:
       summary: Updates a product
       description: Updates a existing product
@@ -205,13 +212,6 @@ paths:
           content:
             application/json:
               example: "Not Found"
-  /api/admin/products/{id}:
-    parameters:
-    - name: id
-      in: path
-      schema:
-        type: string
-      required: true
     delete:
       summary: Deletes a product
       description: Deletes a product using its ID

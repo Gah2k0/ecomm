@@ -54,6 +54,13 @@ paths:
           content:
             application/json:
               example: "ERROR"
+  /api/admin/accounts/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
     put:
       summary: Updates an user
       description: Updates an existing user user
@@ -75,13 +82,6 @@ paths:
           content:
             application/json:
               example: "Not Found"
-  /api/admin/accounts/{id}:
-    parameters:
-    - name: id
-      in: path
-      schema:
-        type: string
-      required: true
     delete:
       summary: Deletes an user.
       description: Deletes an user using its ID.
