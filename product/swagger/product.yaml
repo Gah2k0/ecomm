@@ -1,0 +1,261 @@
+openapi: 3.0.3
+info:
+  title: Ecomm - Product
+  description: API to create, search, update and delete products and categories from the Product API
+  version: 0.0.1
+paths:
+  /api/categories:
+    get:
+      summary: Search for Categories.
+      description: Return all the existing categories.
+      responses: 
+        200: 
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Categories"
+  /api/categories/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    get:
+      summary: Search for a specific category
+      description: Return a specified category using its ID as a parameter
+      responses:
+        200:
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        404:
+          description: Category not found
+          content:
+            application/json:
+              example: "Not Found"
+  /api/admin/categories:
+    post:
+      summary: Creates a new category
+      description: Receives a new category to save in the database
+      requestBody:
+        content:
+          application/json:
+            schema:   
+              type: object
+              properties:
+                categoryName: 
+                  type: string
+      responses:
+        201: 
+          description: Category successfully created!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        401:
+          description: UNAUTHORIZED! Category could not be created because you don't have admin rights.
+          content:
+            application/json:
+              example: "ERROR"
+  /api/admin/categories/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    put:
+      summary: Updates a category.
+      description: Updates a existing category.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      responses:
+        200:
+          description: Category successfully updated!
+        401:
+          description: UNAUTHORIZED! Category could not be updated because you don't have admin rights.
+          content:
+            application/json:
+              example: "ERROR"
+        404:
+          description: Category not found
+          content:
+            application/json:
+              example: "Not Found"
+    patch:
+      summary: Activates a category
+      description: Activates a category status by turning it "true" or "false"
+      responses:
+        200:
+          description: Category successfully activated!
+        401:
+          description: UNAUTHORIZED! Category could not be updated because you don't have admin rights.
+          content:
+            application/json:
+              example: "ERROR"
+        404:
+          description: Category not found
+          content:
+            application/json:
+              example: "Not Found"
+    delete:
+      summary: Deletes a category
+      description: Deletes a specific category using its ID as a parameter.
+      responses:
+        200:
+          description: Category successfully deleted!
+        401:
+          description: UNAUTHORIZED! Category could not be deleted because you don't have admin rights.
+          content:
+            application/json:
+              example: "ERROR"
+        404:
+          description: Category not found
+          content:
+            application/json:
+              example: "Not Found"
+  /api/products:
+    get:
+      summary: Returns all existing products.
+      description: Returns all existing products using queries or not.
+      parameters:
+        - name: maxPrice
+          in: query
+          description: The products max price
+          schema: 
+            type: number
+        - name: minimumPrice
+          in: query
+          description: The products minimum price
+          schema: 
+            type: number
+        - name: category
+          in: query
+          description: The products category
+          schema: 
+            type: number
+        - name: minimumStockQuantity
+          in: query
+          description: Show products that have more stock quantity than the specified value
+          schema: 
+            type: number
+      responses: 
+        200: 
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Products"
+  /api/products/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    get:
+      summary: Searches a product by ID.
+      description: Searches for a specific product using its ID as a parameter
+      responses:
+        200:
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        404:
+          description: Product not found.
+  /api/admin/products:
+    post:
+      summary: Creates a new Product
+      description: Receives a new product and saves it in the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses: 
+        201: 
+          description: Product successfully created!
+        401:
+          description: UNAUTHORIZED! Product could not be created because you don't have admin rights.
+          content:
+            application/json:
+              example: "ERROR"
+  /api/admin/products/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    put:
+      summary: Updates a product
+      description: Updates a existing product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses: 
+        200: 
+          description: Product successfully updated!
+        404:
+          description: Product not found
+          content:
+            application/json:
+              example: "Not Found"
+    delete:
+      summary: Deletes a product
+      description: Deletes a product using its ID
+      responses:
+        200:
+          description: Product successfully deleted!
+        404:
+          description: Product not found
+          content:
+            application/json:
+              example: "Not Found"
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        name: 
+          type: string
+        status: 
+          type: boolean
+    Categories:
+      type: array
+      items:
+        $ref: "#/components/schemas/Category"
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        slug:
+          type: string
+        unitPrice:
+          type: number
+        stockQuantity:
+          type: integer
+        categoryId:
+          type: string
+    Products:
+      type: array
+      items:
+        $ref: "#/components/schemas/Product"

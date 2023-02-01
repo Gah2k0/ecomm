@@ -1,0 +1,139 @@
+openapi: 3.0.3
+info:
+  title: Ecomm - Account
+  description: API to create, update and search the accounts of the Account API 
+  version: 0.0.1
+paths:
+  /api/accounts:
+    get:
+      summary: Returns users
+      description: Returns all the existing users
+      responses: 
+        200: 
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Accounts"
+  /api/accounts/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    get:
+      summary: Searches for an user
+      description: Searches for a specific user using its ID as a parameter
+      responses:
+        200:
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        404:
+          description: User not found
+          content:
+            application/json:
+              example: "Not Found"
+  /api/admin/accounts:
+    post:
+      summary: Creates a new user
+      description: Receives a new user and saves it in the database
+      requestBody:
+        content:
+          application/json:
+            schema:   
+              $ref: "#/components/schemas/Create-Account"
+      responses:
+        201: 
+          description: User successfully created!
+        401:
+          description: UNAUTHORIZED! User could not be created because you don't have admin rights.
+          content:
+            application/json:
+              example: "ERROR"
+  /api/admin/accounts/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    put:
+      summary: Updates an user
+      description: Updates an existing user user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Account"
+      responses:
+        200:
+          description: User successfully updated!
+        401:
+          description: UNAUTHORIZED! User could not be updated because you don't have admin rights.
+          content:
+            application/json:
+              example: "ERROR"
+        404:
+          description: User not found
+          content:
+            application/json:
+              example: "Not Found"
+    delete:
+      summary: Deletes an user.
+      description: Deletes an user using its ID.
+      responses: 
+        200:
+          description: User successfully deleted!
+        404:
+          description: User not found
+          content:
+            application/json:
+              example: "Not Found"
+components:
+  schemas:
+    Create-Account:
+      type: object
+      properties:
+        name: 
+          type: string
+        email: 
+          type: string
+        password: 
+          type: string
+        cpf: 
+          type: string
+        phone: 
+          type: string
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            number:
+              type: string
+            complement:
+              type: string
+            cep:
+              type: string
+            city:
+              type: string
+            uf:
+              type: string
+    Account: 
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+        - $ref: "#/components/schemas/Create-Account"
+    Accounts:
+      type: array
+      items:
+       $ref: "#/components/schemas/Account"
+
+

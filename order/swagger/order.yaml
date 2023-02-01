@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: Ecomm - Order
+  description: API to create and search for orders of the Order API
+  version: 0.0.1
+paths:
+  /api/orders:
+    post:
+      summary: Creates a new order.
+      description: Receives a new order and saves it in the database.
+      requestBody:
+        content:
+          application/json:
+            schema:   
+              $ref: "#/components/schemas/Create-Order"
+      responses:
+        201: 
+          description: Order successfully created!
+        400: 
+          description: ERROR! Could not completed the order.
+  /api/orders/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    get:
+      summary: Searches for an order
+      description: Searches for a specific order using its ID as a parameter
+      responses:
+        200:
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        404:
+          description: Order not found
+          content:
+            application/json:
+              example: "Not Found"
+components:
+  schemas:
+    Create-Order:
+      type: object
+      properties:
+        customerId: 
+          type: string
+        deliveryAddress:
+          type: object
+          properties:
+            street:
+              type: string
+            number:
+              type: string
+            complement:
+              type: string
+            cep:
+              type: string
+            city:
+              type: string
+            uf:
+              type: string
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              itemId: 
+                type: string
+              quantity: 
+                type: integer
+              discountValue: 
+                type: number
+              unitPrice: 
+                type: number
+    Order: 
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+        - $ref: "#/components/schemas/Create-Order"
+    Orders:
+      type: array
+      items:
+       $ref: "#/components/schemas/Order"
+
+
