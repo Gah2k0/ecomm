@@ -1,6 +1,6 @@
 use("ecomm-account")
 
-db.users.insertMany([
+db.accounts.insertMany([
     {
         name: "Gabriel",
         email: "gabriel@email.com",
