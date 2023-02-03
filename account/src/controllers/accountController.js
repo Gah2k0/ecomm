@@ -30,7 +30,7 @@ class AccountController {
         accounts.findById(id, (errors, account) => {
             if(!errors && account)
                 res.status(200).json(account);
-            else if(!account)
+            else if(!errors && !account)
                 res.status(404).send({message: 'User not found'})
             else {
                 res.status(500).send({message: errors.message});
