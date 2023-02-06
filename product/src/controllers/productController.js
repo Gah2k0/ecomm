@@ -53,7 +53,7 @@ class ProductController {
         }
         products.findByIdAndUpdate(id, updatedProduct, (error) => {
             if(!error){
-                res.status(200).send("Produto atualizado com sucesso!")
+                res.status(200).send("Product succesfully updated!")
             } else {
                 res.status(500).send({message: `${error.message}`})
             };
@@ -64,7 +64,7 @@ class ProductController {
 
         products.findByIdAndDelete(id, (error) => {
             if(!error){
-                res.status(204).send("Apagado com sucesso!");
+                res.status(204).send("Product succesfully deleted!");
             } else {
                 res.status(500).send({message: `${error.message}`});
             };

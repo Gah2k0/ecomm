@@ -253,8 +253,11 @@ components:
           type: number
         stockQuantity:
           type: integer
-        categoryId:
-          type: string
+        category:
+          type: object
+          properties: 
+            id: 
+              type: string
     Products:
       type: array
       items:
