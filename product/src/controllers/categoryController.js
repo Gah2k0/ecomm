@@ -3,7 +3,7 @@ import validateName from '../utils/nameValidator.js'
 
 class CategoryController {
 
-    static getAllCategories = (req, res) => {
+    static getAllCategories = (_req, res) => {
         categories.find((err, categories) => {
             if(err){
                 res.status(500).send({message: err.message});
@@ -37,7 +37,7 @@ class CategoryController {
             category.save((error) => {
                 if(error){
                     res.status(500).send({message: `${error.message}`})
-                } else {
+                } else { 
                     res.status(201).send(category.toJSON())
                 };
             });

@@ -3,7 +3,7 @@ import validateProduct from '../validations/productValidation.js';
 
 class ProductController {
 
-    static getAllProducts = (req, res) => {
+    static getAllProducts = (_req, res) => {
         products.find()
             .populate('category.id')
             .exec((err, products) => {
@@ -29,7 +29,7 @@ class ProductController {
             );
     }
     static createProduct =  async (req, res) => {
-        let product = new products(body);
+        let product = new products(req.body);
         const productValidationErrors = await validateProduct(product);
         if(productValidationErrors.length > 0){
             res.status(400).send({message: productValidationErrors});
