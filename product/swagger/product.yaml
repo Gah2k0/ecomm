@@ -47,7 +47,7 @@ paths:
             schema:   
               type: object
               properties:
-                categoryName: 
+                name: 
                   type: string
       responses:
         201: 
