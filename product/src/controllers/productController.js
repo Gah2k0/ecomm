@@ -29,7 +29,7 @@ class ProductController {
             );
     }
     static createProduct =  async (req, res) => {
-        let product = new products({...req.body, status: true});
+        let product = new products(body);
         const productValidationErrors = await validateProduct(product);
         if(productValidationErrors.length > 0){
             res.status(400).send({message: productValidationErrors});
