@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import products from '../models/Product.js';
 import validateProduct from '../validations/productValidation.js';
 
@@ -16,17 +17,23 @@ class ProductController {
     }
     static getProductById = (req, res) => {
         let { id } = req.params;
-
-        products.find()
-            .populate('category.id')
-            .exec(products.findById(id, (error, product) => {
-                    if(!error){
-                        res.status(200).send(product);
-                    } else {
-                        res.status(500).send({message: `${error.message}`});
-                    };
-                })
-            );
+        if(!mongoose.isValidObjectId(id)){
+            res.status(400).send({message: "Invalid Object ID"})
+        } else {
+            products.findById(id)
+                .populate('category.id')
+                .exec((error, product) => {
+                        if(!error && category){
+                            res.status(200).send(product);
+                        } 
+                        else if(!error && !product) {
+                            res.status(404).send({message: 'Product does not exist.'})
+                        }
+                        else {
+                            res.status(500).send({message: `${error.message}`});
+                        };
+                    });
+        }
     }
     static createProduct =  async (req, res) => {
         let product = new products(req.body);

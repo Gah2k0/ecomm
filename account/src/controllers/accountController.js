@@ -2,7 +2,7 @@ import accounts from '../models/Account.js';
 import validateAccount from '../validations/accountValidation.js';
 
 class AccountController {
-    static getAllAccounts = (req, res) => {
+    static getAllAccounts = (_req, res) => {
         accounts.find((errors, accounts) => {
             if(!errors)
                 res.status(200).json(accounts);
