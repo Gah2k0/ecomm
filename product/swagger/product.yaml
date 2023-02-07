@@ -47,7 +47,7 @@ paths:
             schema:   
               type: object
               properties:
-                categoryName: 
+                name: 
                   type: string
       responses:
         201: 
@@ -253,8 +253,11 @@ components:
           type: number
         stockQuantity:
           type: integer
-        categoryId:
-          type: string
+        category:
+          type: object
+          properties: 
+            id: 
+              type: string
     Products:
       type: array
       items:

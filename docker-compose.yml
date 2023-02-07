@@ -2,9 +2,17 @@ version: "3.9"
 services: 
   product-container:
     build: ./product/
-    
+    ports:
+      - 3002:3002
+    depends_on:
+      - mongodb
+
   account:
     build: ./account/
+    ports:
+      - 3001:3001
+    depends_on:
+      - mongodb
 
   mongodb:
     container_name: mongo-ecomm
