@@ -22,3 +22,12 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=secret
     ports:
       - "27017:27017"
+
+  mysql:
+    container_name: mysql-ecomm
+    image: mysql
+    environment:
+      - MYSQL_ROOT_USERNAME=root
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - "3306:3306"
