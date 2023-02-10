@@ -16,17 +16,17 @@ class PaymentsController {
                     {
                         rel: 'SELF',
                         method: 'GET',
-                        href: `http://localhost:3003/payments/${newPayment.id}`
+                        href: `http://finance:3004/payments/${newPayment.id}`
                       },
                       {
                         rel: 'ACTIVATE',
                         method: 'PATCH',
-                        href: `http://localhost:3003/payments/${newPayment.id}/confirm`
+                        href: `http://finance:3004/payments/${newPayment.id}/confirm`
                       },
                       {
                         rel: 'CANCEL',
                         method: 'PATCH',
-                        href: `http://localhost:3003/payments/${newPayment.id}/cancel`
+                        href: `http://finance:3004/payments/${newPayment.id}/cancel`
                       },
                 ]
             };
@@ -38,19 +38,15 @@ class PaymentsController {
     static getPaymentById = async (req, res) => {
         const { id } = req.params;
         try{
-            const payment = await database.Payments.findOne({ 
-                    where: { 
-                        id: Number(id) 
-                    },
-                    attributes: ['id', 'nameOnCard', 'cardNumber', 'expirationDate', 'value', 'status', 'createdAt', 'updatedAt']
-                });
+            const payment = await findPaymentById(id);
             return res.status(200).json(payment);
         } catch(error) {
             return res.status(500).json(error.message);
         }
     }
-    static updatedPaymentStatus = async (req, res) => {
-        const { id, action } = req.params;
+    static confirmPayment = async (req, res) => {
+        const { id } = req.params;
+        let orderDescription = req.body;
         try{
             const payment = await database.Payments.findOne({ 
                 where: { 
@@ -58,22 +54,58 @@ class PaymentsController {
                 },
                 attributes: ['id', 'status', 'createdAt', 'updatedAt']
             });
-            if(payment.status === 'CONFIRMADO' || payment.status === 'CANCELADO')
+            if(payment.status != "CRIADO")
                 return res.status(400).send({message: 'This payment status cannot be updated'});
-            let status;
-            action === 'confirm' ? status = 'CONFIRMADO' : status = 'CANCELADO';
-            await database.Payments.update({status: status}, { where: { id: Number(id) }})
-            const updatedPayment = await database.Payments.findOne({
-                where: { 
-                    id: Number(id) 
-                },
-                attributes: ['id', 'nameOnCard', 'cardNumber', 'expirationDate', 'value', 'status', 'createdAt', 'updatedAt']
+
+            orderDescription.itens = orderDescription.itens.map(getEffectiveProductPrice);
+
+            await database.sequelize.transaction(async (transaction) => {
+                await database.Payments.update({status: "CONFIRMADO"}, { where: { id: Number(id) }}, {transaction: transaction})
+                await database.Invoices.create({description: orderDescription, payment_id: id}, {transaction: transaction});
             });
-            return res.status(200).json(updatedPayment);
+
+            const confirmedPayment = await findPaymentById(id);
+            return res.status(200).json(confirmedPayment);
         } catch(error){
             return res.status(500).json(error.message);
         }
     }
+    static cancelPayment = async (req, res) => {
+        const { id } = req.params;
+        try{
+            const payment = await database.Payments.findOne({ 
+                where: { 
+                    id: Number(id) 
+                },
+                attributes: ['id', 'status', 'createdAt', 'updatedAt']
+            });
+            if(payment.status != "CRIADO")
+                return res.status(400).send({message: 'This payment status cannot be updated'});
+            await database.Payments.update({status: "CANCELADO"}, { where: { id: Number(id) }})
+            const canceledPayment  = await findPaymentById(id);
+            return res.status(200).json(canceledPayment);
+        } catch(error){
+            return res.status(500).json(error.message);
+        }
+    }
+}
+
+function getEffectiveProductPrice(product){
+    return {
+        name: product.name,
+        quantity: product.quantity,
+        price: (product.unitPrice * product.quantity) - (product.discount * product.quantity)
+    };
+}
+
+async function findPaymentById(id){
+    const payment = await database.Payments.findOne({ 
+        where: { 
+            id: Number(id) 
+        },
+        attributes: ['id', 'nameOnCard', 'cardNumber', 'expirationDate', 'value', 'status', 'createdAt', 'updatedAt']
+    });
+    return payment;
 }
 
 module.exports = PaymentsController;

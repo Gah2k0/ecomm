@@ -12,7 +12,7 @@ function validatePayment(payment){
     if(!cardNumberRegex.test(payment.cardNumber))
         errors.push('The provided card number is invalid');
     if(!expirationDateRegex.test(payment.expirationDate) || !validateDate(payment.expirationDate))
-        errors.push("The provided expiration date is invalid");
+        errors.push('The provided expiration date is invalid');
     if(!cvvRegex.test(payment.cvv))
         errors.push('The provided CVV is invalid')
     return errors;
