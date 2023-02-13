@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-
+mongoose.Schema.Types.DocumentArray.set('_id', false);
 const orderSchema = new mongoose.Schema (
     {
-        customer_id: {type: mongoose.Schema.Types.ObjectId, required: true},
+        customerId: {type: mongoose.Schema.Types.ObjectId, required: true},
         status: {type: String, required:true},
         deliveryAddress: {
             street: {type: String, required: true},
@@ -13,9 +13,9 @@ const orderSchema = new mongoose.Schema (
             city: {type: String, required: true},
             uf: {type: String, required: true}
         },
-        itens: [
+        items: [
             {
-                id: {type: String, required: true},
+                id: {type: mongoose.Schema.Types.ObjectId, required: true},
                 name: {type: String, required: true},
                 quantity: {type: Number, required: true},
                 unitPrice: {type: Number, required: true},

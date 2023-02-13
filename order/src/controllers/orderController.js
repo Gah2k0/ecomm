@@ -11,7 +11,7 @@ class OrderController {
                 res.status(200).send(order);
             } 
             else if(!error && !order){
-                res.status(404).send({message: 'Order does not exist.'})
+                res.status(404).send({message: 'Order does not exist.'});
             } 
             else {
                 res.status(500).send({message: `${error.message}`});
@@ -23,9 +23,9 @@ class OrderController {
 
         order.save((error) => {
             if(error){
-                res.status(500).send({message: `${error.message}`})
+                res.status(500).send({message: `${error.message}`});
             } else { 
-                res.status(201).send(order.toJSON())
+                res.status(201).send(order.toJSON());
             };
         });
     }
@@ -35,7 +35,7 @@ class OrderController {
             const order = await orders.findById(id);
             if(!order)
                 return res.status(404).send({message: "This order does not exist"});
-            const {name, cpf, address} = await fetchAccount(order.customer_id);
+            const {name, cpf, address} = await fetchAccount(order.customerId);
             if(!name || !cpf || !address)
                 return res.status(400).send({message: "This order does not have a valid account for confirming. Please contact the support"});
 
@@ -43,16 +43,16 @@ class OrderController {
                 name: name,
                 cpf: cpf,
                 address: address,
-                itens: order.itens
+                items: order.items
             };
-            const paymentConfirmation = await fetchConfirmPayment(paymentId, payLoad)
+            const paymentConfirmation = await fetchConfirmPayment(paymentId, payLoad);
             if(paymentConfirmation){
                 await orders.findByIdAndUpdate(id, {status: "PAGO"});
                 return res.status(200).send(paymentConfirmation);
             }
-            return res.status(400).send({message: "The order operation could not be completed because your payment could not be confirmed."})
+            return res.status(400).send({message: "The order operation could not be completed because your payment could not be confirmed."});
         } catch(error){
-            res.status(500).send({message: error.message})
+            res.status(500).send({message: error.message});
         }
     }
 }
