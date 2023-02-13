@@ -30,6 +30,8 @@ class PaymentsController {
                       },
                 ]
             };
+
+            
             return res.status(201).location(`/payments/${responseObject.id}`).json(responseObject);
         } catch (error) {
             return res.status(500).json(error.message);
@@ -57,7 +59,7 @@ class PaymentsController {
             if(payment.status != "CRIADO")
                 return res.status(400).send({message: 'This payment status cannot be updated'});
 
-            orderDescription.itens = orderDescription.itens.map(getEffectiveProductPrice);
+            orderDescription.items = orderDescription.items.map(getEffectiveProductPrice);
 
             await database.sequelize.transaction(async (transaction) => {
                 await database.Payments.update({status: "CONFIRMADO"}, { where: { id: Number(id) }}, {transaction: transaction})

@@ -1,9 +1,9 @@
 const express = require ('express');
 const payments = require('./paymentsRoutes.js');
-// import swaggerUi from 'swagger-ui-express';
-// import YAML from 'yamljs';
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 
-// const swaggerDocument = YAML.load('./swagger/finance.yaml');
+const swaggerDocument = YAML.load('api/swagger/finance.yaml');
 
 const routes = (app) => {
     app.route('/').get((req, res) => {
@@ -14,7 +14,7 @@ const routes = (app) => {
         express.json(),
         payments
     )
-    // app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 }
 
