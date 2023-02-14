@@ -44,11 +44,8 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:   
-              type: object
-              properties:
-                name: 
-                  type: string
+            schema:
+              $ref: "#/components/schemas/Create-category"
       responses:
         201: 
           description: Category successfully created!
@@ -75,7 +72,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Category"
+              $ref: "#/components/schemas/Update-category"
       responses:
         200:
           description: Category successfully updated!
@@ -180,10 +177,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: "#/components/schemas/Create-product"
       responses: 
         201: 
           description: Product successfully created!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Create-product-response"
         401:
           description: UNAUTHORIZED! Product could not be created because you don't have admin rights.
           content:
@@ -203,10 +204,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: "#/components/schemas/Create-product"
       responses: 
         200: 
           description: Product successfully updated!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Create-product-response"
         404:
           description: Product not found
           content:
@@ -227,13 +232,31 @@ components:
   schemas:
     Category:
       type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: 63eaea653f54b54de60123bc
+            status:
+              type: boolean
+              example: false
+        - $ref: "#/components/schemas/Create-category"
+    Create-category:
+      type: object
       properties:
-        id:
+        name:
           type: string
-        name: 
+          example: MÓVEIS
+    Update-category:
+      type: object
+      properties:
+        name:
           type: string
-        status: 
+          example: MÓVEIS
+        status:
           type: boolean
+          example: true
     Categories:
       type: array
       items:
@@ -241,20 +264,66 @@ components:
     Product:
       type: object
       properties:
-        id:
+        _id:
           type: string
+          example: 63eaea823f54b54de60123be
         name:
           type: string
+          example: Capa Celular Samsung
         description:
           type: string
+          example: Capa de celular Samsung A22
         slug:
           type: string
+          example: capa-celular-samsung
         unitPrice:
           type: number
+          example: 19.99
         stockQuantity:
           type: integer
-        categoryId:
+          example: 100
+        category:
+          type: object
+          properties:
+            _id: 
+              type: string
+              example: 63eaea653f54b54de60123bc
+            name: 
+              type: string
+              example: TESTE 2.0
+            status: 
+              type: string
+              example: true
+    Create-product:
+      type: object
+      properties:
+        name:
           type: string
+          example: Capa Celular Samsung
+        description:
+          type: string
+          example: Capa de celular Samsung A22
+        slug:
+          type: string
+          example: capa-celular-samsung
+        unitPrice:
+          type: number
+          example: 19.99
+        stockQuantity:
+          type: integer
+          example: 100
+        category:
+              type: string
+              example: 63eaea653f54b54de60123bc
+    Create-product-response:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            _id:
+              type: string
+              example: 63eaea823f54b54de60123be
+        - $ref: "#/components/schemas/Create-product" 
     Products:
       type: array
       items:

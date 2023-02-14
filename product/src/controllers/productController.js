@@ -54,17 +54,22 @@ class ProductController {
     static updateProduct = async (req, res) => {
         let { id } = req.params;
         let updatedProduct = req.body;
-        const productValidationErrors = await validateProduct(updatedProduct);
-        if(productValidationErrors.length > 0){
-            res.status(400).send({message: productValidationErrors});
+        try{
+            const productValidationErrors = await validateProduct(updatedProduct);
+            if(productValidationErrors.length > 0){
+                return res.status(400).send({message: productValidationErrors});
+            }
+            if(!mongoose.isValidObjectId(id))
+                return res.status(400).send({message: "Invalid product ID"});
+    
+            Product.findByIdAndUpdate(id, updatedProduct, (error) => {
+                if(!error){
+                    return res.status(200).send("Product succesfully updated!")
+                }
+            });
+        } catch(error){
+            return res.status(500).send({message: `${error.message}`})
         }
-        Product.findByIdAndUpdate(id, updatedProduct, (error) => {
-            if(!error){
-                res.status(200).send("Product succesfully updated!")
-            } else {
-                res.status(500).send({message: `${error.message}`})
-            };
-        });
     }
     static deleteProduct = (req, res) => {
         let { id } = req.params;
