@@ -31,7 +31,6 @@ class PaymentsController {
                 ]
             };
 
-            
             return res.status(201).location(`/payments/${responseObject.id}`).json(responseObject);
         } catch (error) {
             return res.status(500).json(error.message);
@@ -41,7 +40,8 @@ class PaymentsController {
         const { id } = req.params;
         try{
             const payment = await findPaymentById(id);
-            return res.status(200).json(payment);
+            payment ? res.status(200).json(payment) : res.status(404).json({message: "Payment does not exist"});
+            return res;
         } catch(error) {
             return res.status(500).json(error.message);
         }
@@ -81,11 +81,12 @@ class PaymentsController {
                 },
                 attributes: ['id', 'status', 'createdAt', 'updatedAt']
             });
-            if(payment.status != "CRIADO")
+            if(!payment || payment.status != "CRIADO")
                 return res.status(400).send({message: 'This payment status cannot be updated'});
-            await database.Payments.update({status: "CANCELADO"}, { where: { id: Number(id) }})
-            const canceledPayment  = await findPaymentById(id);
-            return res.status(200).json(canceledPayment);
+
+            const updateResult = await database.Payments.update({status: "CANCELADO"}, { where: { id: Number(id) }});
+            updateResult ? res.status(204).send() : res.status(400).json({message: "Payment could not be updated"});
+            return res;
         } catch(error){
             return res.status(500).json(error.message);
         }
