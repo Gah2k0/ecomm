@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
-import products from '../models/Product.js';
+import Product from '../models/Product.js';
 import validateProduct from '../validations/productValidation.js';
 
 class ProductController {
 
     static getAllProducts = (_req, res) => {
-        products.find()
-            .populate('category.id')
+        Product.find()
+            .populate('category')
             .exec((err, products) => {
                 if(err){
                     res.status(500).send({message: err.message});
@@ -20,10 +20,10 @@ class ProductController {
         if(!mongoose.isValidObjectId(id)){
             res.status(400).send({message: "Invalid Object ID"})
         } else {
-            products.findById(id)
-                .populate('category.id')
+            Product.findById(id)
+                .populate('category')
                 .exec((error, product) => {
-                        if(!error && category){
+                        if(!error && product){
                             res.status(200).send(product);
                         } 
                         else if(!error && !product) {
@@ -36,7 +36,7 @@ class ProductController {
         }
     }
     static createProduct =  async (req, res) => {
-        let product = new products(req.body);
+        let product = new Product(req.body);
         const productValidationErrors = await validateProduct(product);
         if(productValidationErrors.length > 0){
             res.status(400).send({message: productValidationErrors});
@@ -58,7 +58,7 @@ class ProductController {
         if(productValidationErrors.length > 0){
             res.status(400).send({message: productValidationErrors});
         }
-        products.findByIdAndUpdate(id, updatedProduct, (error) => {
+        Product.findByIdAndUpdate(id, updatedProduct, (error) => {
             if(!error){
                 res.status(200).send("Product succesfully updated!")
             } else {
@@ -69,7 +69,7 @@ class ProductController {
     static deleteProduct = (req, res) => {
         let { id } = req.params;
 
-        products.findByIdAndDelete(id, (error) => {
+        Product.findByIdAndDelete(id, (error) => {
             if(!error){
                 res.status(204).send("Product succesfully deleted!");
             } else {

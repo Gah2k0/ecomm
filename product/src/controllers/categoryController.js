@@ -1,10 +1,10 @@
-import categories from '../models/Category.js';
+import Category from '../models/Category.js';
 import validateName from '../utils/nameValidator.js'
 
 class CategoryController {
 
     static getAllCategories = (_req, res) => {
-        categories.find((err, categories) => {
+        Category.find((err, categories) => {
             if(err){
                 res.status(500).send({message: err.message});
                 return;
@@ -15,7 +15,7 @@ class CategoryController {
     static getCategoryById = (req, res) => {
         let { id } = req.params;
 
-        categories.findById(id, (error, category) => {
+        Category.findById(id, (error, category) => {
             if(!error && category){
                 res.status(200).send(category);
             } 
@@ -28,7 +28,7 @@ class CategoryController {
         });
     }
     static createCategory = (req, res) => {
-        let category = new categories({...req.body, status: true});
+        let category = new Category({...req.body, status: true});
 
         if(!validateName(category.name)){
             res.status(400).send({message: "Category name must start with a letter and must be at least 4 characters long"});
@@ -51,7 +51,7 @@ class CategoryController {
             return res.status(400).send({message: "Category name must start with a letter and must be at least 4 characters long"});
         }
 
-        categories.findByIdAndUpdate(id, updatedCategory, (error) => {
+        Category.findByIdAndUpdate(id, updatedCategory, (error) => {
             if(!error){
                 res.status(200).send("Category succesfully updated!")
             } else {
@@ -62,7 +62,7 @@ class CategoryController {
     static activateCategory = (req, res) => {
         let { id } = req.params;
 
-        categories.findByIdAndUpdate(id, {$set: {status: true}}, (error) => {
+        Category.findByIdAndUpdate(id, {$set: {status: true}}, (error) => {
             if(!error){
                 res.status(200).send("Category succesfully activated!")
             } else {
@@ -73,7 +73,7 @@ class CategoryController {
     static deleteCategory = (req, res) => {
         let { id } = req.params;
 
-        categories.findByIdAndDelete(id, (error) => {
+        Category.findByIdAndDelete(id, (error) => {
             if(!error){
                 res.status(204).send("Category succesfully deleted!");
             } else {

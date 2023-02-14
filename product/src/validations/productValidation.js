@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import validateName from '../utils/nameValidator.js';
-import categories from '../models/Category.js';
+import Category from '../models/Category.js';
 
 async function validateProduct(product) {
     const slugRegex = new RegExp(/^[a-zA-Z 0-9\-]*$/);
@@ -13,9 +13,9 @@ async function validateProduct(product) {
         errors.push('Unit price must be higher than 0');
     if(product.stockQuantity <= 0 || product.stockQuantity >= 10000)
         errors.push('Stock quantity must be higher than 0 and lower than 10000');
-    if(!mongoose.isValidObjectId(product.category.id))
+    if(!mongoose.isValidObjectId(product.category))
         errors.push('Category Id is invalid');
-    const category = await categories.findOne({_id: product.category.id});
+    const category = await Category.findOne({_id: product.category});
     if(!category)
         errors.push('Provided category does not exist');
     return errors;
