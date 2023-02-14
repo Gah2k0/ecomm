@@ -1,4 +1,4 @@
-import orders from '../models/Order.js';
+import Order from '../models/Order.js';
 import { fetchAccount, fetchConfirmPayment } from '../utils/fetchApi.js';
 
 class OrderController {
@@ -6,7 +6,7 @@ class OrderController {
     static getOrderById = (req, res) => {
         let { id } = req.params;
 
-        orders.findById(id, (error, order) => {
+        Order.findById(id, (error, order) => {
             if(!error && order){
                 res.status(200).send(order);
             } 
@@ -19,7 +19,7 @@ class OrderController {
         });
     }
     static createOrder = (req, res) => {
-        let order = new orders({...req.body, status: "REALIZADO"});
+        let order = new Order({...req.body, status: "REALIZADO"});
 
         order.save((error) => {
             if(error){
@@ -32,7 +32,7 @@ class OrderController {
     static confirmOrder = async (req, res) => {
         const { id, paymentId } = req.params;
         try{
-            const order = await orders.findById(id);
+            const order = await Order.findById(id);
             if(!order)
                 return res.status(404).send({message: "This order does not exist"});
             const {name, cpf, address} = await fetchAccount(order.customerId);
@@ -47,7 +47,7 @@ class OrderController {
             };
             const paymentConfirmation = await fetchConfirmPayment(paymentId, payLoad);
             if(paymentConfirmation){
-                await orders.findByIdAndUpdate(id, {status: "PAGO"});
+                await Order.findByIdAndUpdate(id, {status: "PAGO"});
                 return res.status(200).send(paymentConfirmation);
             }
             return res.status(400).send({message: "The order operation could not be completed because your payment could not be confirmed."});
