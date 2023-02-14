@@ -1,15 +1,15 @@
-import accounts from '../models/Account.js';
+import Account from '../models/Account.js';
 import validateAccount from '../validations/accountValidation.js';
 
 class AccountController {
     static getAllAccounts = (_req, res) => {
-        accounts.find((errors, accounts) => {
+        Account.find((errors, accounts) => {
             if(!errors)
                 res.status(200).json(accounts);
         })
     }
     static createAccount = (req, res) => {
-        const account = new accounts(req.body);
+        const account = new Account(req.body);
         const accountValidationErrors = validateAccount(account);
         if(accountValidationErrors.length > 0){
             res.status(400).send({message: accountValidationErrors});
@@ -27,7 +27,7 @@ class AccountController {
     static getAccountById = (req, res) => {
         const { id } = req.params;
 
-        accounts.findById(id, (errors, account) => {
+        Account.findById(id, (errors, account) => {
             if(!errors && account)
                 res.status(200).json(account);
             else if(!errors && !account)
@@ -45,7 +45,7 @@ class AccountController {
             res.status(400).send({message: accountValidationErrors});
         }
         else{
-            accounts.findByIdAndUpdate(id, updatedAccount, (error) => {
+            Account.findByIdAndUpdate(id, updatedAccount, (error) => {
                 if(error){
                     res.status(500).send({message: `${error.message}`})
                 } else {
@@ -57,7 +57,7 @@ class AccountController {
     static deleteAccount = (req, res) => {
         let { id } = req.params;
 
-        accounts.findByIdAndDelete(id, (error) => {
+        Account.findByIdAndDelete(id, (error) => {
             if(!error){
                 res.status(200).send("Account succesfully deleted!");
             } else {

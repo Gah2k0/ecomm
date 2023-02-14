@@ -20,6 +20,6 @@ const accountSchema = new mongoose.Schema(
     }
 )
 
-const accounts = mongoose.model('accounts', accountSchema);
+const Account = mongoose.model('Account', accountSchema);
 
-export default accounts;
+export default Account;
