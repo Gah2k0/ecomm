@@ -56,14 +56,14 @@ class PaymentsController {
                 },
                 attributes: ['id', 'status', 'createdAt', 'updatedAt']
             });
-            if(payment.status != "CRIADO")
+            if(payment.status !== "CRIADO")
                 return res.status(400).send({message: 'This payment status cannot be updated'});
 
             orderDescription.items = orderDescription.items.map(getEffectiveProductPrice);
 
             await database.sequelize.transaction(async (transaction) => {
-                await database.Payments.update({status: "CONFIRMADO"}, { where: { id: Number(id) }}, {transaction: transaction})
-                await database.Invoices.create({description: orderDescription, payment_id: id}, {transaction: transaction});
+                await database.Payments.update({status: "CONFIRMADO"}, { where: { id: Number(id) }}, {transaction})
+                await database.Invoices.create({description: orderDescription, payment_id: id}, {transaction});
             });
 
             const confirmedPayment = await findPaymentById(id);

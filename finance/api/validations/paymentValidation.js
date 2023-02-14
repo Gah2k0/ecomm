@@ -11,14 +11,14 @@ function validatePayment(payment){
         errors.push('The payment value should be higher than 0');
     if(!cardNumberRegex.test(payment.cardNumber))
         errors.push('The provided card number is invalid');
-    if(!expirationDateRegex.test(payment.expirationDate) || !validateDate(payment.expirationDate))
+    if(!expirationDateRegex.test(payment.expirationDate) || !isDateValid(payment.expirationDate))
         errors.push('The provided expiration date is invalid');
     if(!cvvRegex.test(payment.cvv))
         errors.push('The provided CVV is invalid')
     return errors;
 }
 
-function validateDate(date) {
+function isDateValid(date) {
     const year = date.substring(0, 4);
     const month = date.substring(5, 7);
     if(Number(month) > 12 || Number(month) < 1)
