@@ -88,7 +88,7 @@ paths:
               example: "Not Found"
     patch:
       summary: Activates a category
-      description: Activates a category status by turning it "true" or "false"
+      description: Activates a category status by turning it "true"
       responses:
         200:
           description: Category successfully activated!
