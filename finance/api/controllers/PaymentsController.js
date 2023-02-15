@@ -21,7 +21,7 @@ class PaymentsController {
                       },
                       {
                         rel: 'ACTIVATE',
-                        method: 'PATCH',
+                        method: 'POST',
                         href: `http://finance:3004/payments/${newPayment.id}/confirm`
                       },
                       {
