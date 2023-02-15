@@ -1,9 +1,10 @@
 const database = require('../models/index.js');
 const validatePayment = require('../validations/paymentValidation.js');
+const PAYMENT_STATUS = require('../constants/constants.js');
 
 class PaymentsController {
     static createPayment = async (req, res) => {
-        const payment = {...req.body, status: "CRIADO"};
+        const payment = {...req.body, status: PAYMENT_STATUS.CRIADO};
         try{
             const paymentValidationErrors = validatePayment(payment)
             if(paymentValidationErrors.length > 0)
@@ -56,13 +57,13 @@ class PaymentsController {
                 },
                 attributes: ['id', 'status', 'createdAt', 'updatedAt']
             });
-            if(payment.status !== "CRIADO")
+            if(payment.status !== PAYMENT_STATUS.CRIADO)
                 return res.status(400).send({message: 'This payment status cannot be updated'});
 
             orderDescription.items = orderDescription.items.map(getEffectiveProductPrice);
 
             await database.sequelize.transaction(async (transaction) => {
-                await database.Payments.update({status: "CONFIRMADO"}, { where: { id: Number(id) }}, {transaction})
+                await database.Payments.update({status: PAYMENT_STATUS.CONFIRMADO}, { where: { id: Number(id) }}, {transaction})
                 await database.Invoices.create({description: orderDescription, payment_id: id}, {transaction});
             });
 
@@ -81,10 +82,10 @@ class PaymentsController {
                 },
                 attributes: ['id', 'status', 'createdAt', 'updatedAt']
             });
-            if(!payment || payment.status != "CRIADO")
+            if(!payment || payment.status !== PAYMENT_STATUS.CRIADO)
                 return res.status(400).send({message: 'This payment status cannot be updated'});
 
-            const updateResult = await database.Payments.update({status: "CANCELADO"}, { where: { id: Number(id) }});
+            const updateResult = await database.Payments.update({status: PAYMENT_STATUS.CANCELADO}, { where: { id: Number(id) }});
             updateResult ? res.status(204).send() : res.status(400).json({message: "Payment could not be updated"});
             return res;
         } catch(error){
