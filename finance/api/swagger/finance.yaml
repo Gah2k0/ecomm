@@ -141,17 +141,22 @@ components:
             type: string
             example: "Robert Robertson, 1234 NW Bobcat Lane, St. Robert, MO 65584-5678"
           items: 
-            type: object
-            properties:
-              productName: 
-                type: string
-                example: "Kitkat"
-              quantity: 
-                type: number
-                example: 10
-              price: 
-                type: number
-                example: 3
+            type: array
+            items:
+              type: object
+              properties:
+                name: 
+                  type: string
+                  example: "Kitkat"
+                quantity: 
+                  type: number
+                  example: 10
+                unitPrice: 
+                  type: number
+                  example: 3
+                discount:
+                  type: number
+                  example: 0.5
     # Orders:
     #   type: array
     #   items:

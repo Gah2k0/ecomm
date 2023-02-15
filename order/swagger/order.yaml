@@ -76,23 +76,31 @@ components:
       properties:
         customerId: 
           type: string
+          example: 63eb9269885b494eeb11829b
         deliveryAddress:
           type: object
           properties:
             street:
               type: string
+              example: Rua Otávio Rola
             number:
               type: string
+              example: 200
             complement:
               type: string
+              example: casa
             district:
               type: string
+              example: Nova Estação
             cep:
               type: string
+              example: 69918-388
             city:
               type: string
+              example: Rio Branco
             uf:
               type: string
+              example: AC
         items:
           type: array
           items:
@@ -100,14 +108,19 @@ components:
             properties:
               id: 
                 type: string
+                example: 63ea759764794efad882359c
               name:
                 type: string
+                example: Mesa gamer de Teste
               quantity: 
                 type: integer
+                example: 1
               discount: 
                 type: number
+                example: 0
               unitPrice: 
                 type: number
+                example: 102.9
     Order: 
       type: object
       allOf:
