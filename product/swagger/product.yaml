@@ -217,17 +217,18 @@ paths:
           content:
             application/json:
               example: "Not Found"
+        400:
+          description: Validation error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Product-validation-errors"
     delete:
       summary: Deletes a product
       description: Deletes a product using its ID
       responses:
-        200:
+        204:
           description: Product successfully deleted!
-        404:
-          description: Product not found
-          content:
-            application/json:
-              example: "Not Found"
 components:
   schemas:
     Category:
@@ -328,3 +329,8 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Product"
+    Product-validation-errors: 
+      type: array
+      items:
+        type: string
+        example: "Name must start with a letter"

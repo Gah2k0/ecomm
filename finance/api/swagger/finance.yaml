@@ -64,6 +64,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Searchable-Payment"
+        400:
+          description: Payment has already been confirmed or canceled
+          content:
+            application/json:
+                example: { message: This payment status cannot be updated }
   /payments/{id}/cancel:
     parameters:
     - name: id
@@ -81,6 +86,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Searchable-Payment"
+        400:
+          description: Payment has already been confirmed or canceled
+          content:
+            application/json:
+                example: { message: This payment status cannot be updated }
 components:
   schemas:
     Create-Payment:
