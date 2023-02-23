@@ -40,6 +40,35 @@ paths:
           content:
             application/json:
               example: "Not Found"
+  /api/orders/{id}/confirm/{paymentId}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: string
+      required: true
+    - name: paymentId
+      in: path
+      schema:
+        type: number
+      required: true
+    patch:
+      summary: Confirms an order
+      description: Confirms an order using a valid payment 
+      responses:
+        200:
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Confirm-order-response"
+        404:
+          description: Order does not exist
+          content:
+            application/json:
+              example: This order does not exist
+        400:
+          description: Client does not exist or payment could not be confirmed
 components:
   schemas:
     Create-Order:
@@ -47,34 +76,51 @@ components:
       properties:
         customerId: 
           type: string
+          example: 63eb9269885b494eeb11829b
         deliveryAddress:
           type: object
           properties:
             street:
               type: string
+              example: Rua Otávio Rola
             number:
               type: string
+              example: 200
             complement:
               type: string
+              example: casa
+            district:
+              type: string
+              example: Nova Estação
             cep:
               type: string
+              example: 69918-388
             city:
               type: string
+              example: Rio Branco
             uf:
               type: string
+              example: AC
         items:
           type: array
           items:
             type: object
             properties:
-              itemId: 
+              id: 
                 type: string
+                example: 63ea759764794efad882359c
+              name:
+                type: string
+                example: Mesa gamer de Teste
               quantity: 
                 type: integer
-              discountValue: 
+                example: 1
+              discount: 
                 type: number
+                example: 0
               unitPrice: 
                 type: number
+                example: 102.9
     Order: 
       type: object
       allOf:
@@ -82,10 +128,39 @@ components:
           properties:
             id:
               type: string
+            status:
+              type: string
         - $ref: "#/components/schemas/Create-Order"
-    Orders:
-      type: array
-      items:
-       $ref: "#/components/schemas/Order"
+    Confirm-order-response:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nameOnCard: 
+          type: string
+          example: "John Doe"
+        status: 
+          type: string
+          example: "CONFIRMADO"
+        value:
+          type: number
+          example: "30"
+        cardNumber:
+          type: string
+          example: "1234567812345678"
+        expirationDate:
+          type: string
+          example: "2030-01"
+        createdAt:
+          type: string
+          example: "2023-02-10 16:34:07"
+        updatedAt:
+          type: string
+          example: "2023-02-10 16:34:07"
+    # Orders:
+    #   type: array
+    #   items:
+    #   $ref: "#/components/schemas/Order"
 
 

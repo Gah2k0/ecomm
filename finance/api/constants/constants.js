@@ -1,0 +1,7 @@
+const  PAYMENT_STATUS = {
+    CRIADO: "CRIADO",
+    CONFIRMADO: "CONFIRMADO",
+    CANCELADO: "CANCELADO"
+};
+
+module.exports = PAYMENT_STATUS;

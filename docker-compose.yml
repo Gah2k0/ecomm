@@ -1,5 +1,12 @@
 version: "3.9"
 services: 
+  account:
+    build: ./account/
+    ports:
+      - 3001:3001
+    depends_on:
+      - mongodb
+      
   product-container:
     build: ./product/
     ports:
@@ -7,12 +14,19 @@ services:
     depends_on:
       - mongodb
 
-  account:
-    build: ./account/
+  order:
+    build: ./order/
     ports:
-      - 3001:3001
+      - 3003:3003
     depends_on:
       - mongodb
+
+  finance:
+    build: ./finance/
+    ports:
+      - 3004:3004
+    depends_on:
+      - mysql
 
   mongodb:
     container_name: mongo-ecomm
@@ -22,3 +36,18 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=secret
     ports:
       - "27017:27017"
+
+  mysql:
+    container_name: mysql-ecomm
+    image: mysql
+    environment:
+      - MYSQL_ROOT_USERNAME=root
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-mysql-ecomm:/var/lib/mysql
+
+volumes:
+  db-mongo-ecomm:
+  db-mysql-ecomm:

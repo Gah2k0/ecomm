@@ -1,0 +1,175 @@
+openapi: 3.0.3
+info:
+  title: Ecomm - Finance
+  description: API to create, confirm and cancel payments from the Finance API
+  version: 0.0.1
+# servers:
+#   - url: http://127.0.0.1:3004
+paths:
+  /payments:
+    post:
+      summary: Creates a new payment.
+      description: Receives a new Payment and saves it in the database.
+      requestBody:
+        content:
+          application/json:
+            schema:   
+              $ref: "#/components/schemas/Create-Payment"
+      responses:
+        201: 
+          description: Payment successfully created!
+        400: 
+          description: ERROR! Could not complete the payment.
+  /payments/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: number
+      required: true
+    get:
+      summary: Searches for a payment
+      description: Searches for a specific payment using its ID as a parameter
+      responses:
+        200:
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Searchable-Payment"
+        404:
+          description: Payment not found
+          content:
+            application/json:
+              example: "Not Found"
+  /payments/{id}/confirm:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: number
+      required: true
+    post:
+      summary: Confirm a Payment
+      description: Updates a payment to a confirmed status.
+      requestBody:
+        content:
+          application/json:
+            schema:   
+              $ref: "#/components/schemas/Order-Description"
+      responses: 
+        200:
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Searchable-Payment"
+        400:
+          description: Payment has already been confirmed or canceled
+          content:
+            application/json:
+                example: { message: This payment status cannot be updated }
+  /payments/{id}/cancel:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: number
+      required: true
+    patch:
+      summary: Cancel a Payment
+      description: Updates a payment to a canceled status.
+      responses: 
+        200:
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Searchable-Payment"
+        400:
+          description: Payment has already been confirmed or canceled
+          content:
+            application/json:
+                example: { message: This payment status cannot be updated }
+components:
+  schemas:
+    Create-Payment:
+      type: object
+      properties:
+        nameOnCard: 
+          type: string
+          example: "John Doe"
+        value:
+          type: number
+          example: 30
+        cardNumber:
+          type: string
+          example: "1234567812345678"
+        expirationDate:
+          type: string
+          example: "2030-01"
+        cvv:
+          type: string
+          example: "123"
+    Searchable-Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nameOnCard: 
+          type: string
+          example: "John Doe"
+        status: 
+          type: string
+          example: "CONFIRMADO"
+        value:
+          type: number
+          example: "30"
+        cardNumber:
+          type: string
+          example: "1234567812345678"
+        expirationDate:
+          type: string
+          example: "2030-01"
+        createdAt:
+          type: string
+          example: "2023-02-10 16:34:07"
+        updatedAt:
+          type: string
+          example: "2023-02-10 16:34:07"
+    Order-Description:
+      type: object
+      properties:
+          customerName: 
+            type: string
+            example: "John Doe"
+          customerCpf: 
+            type: string
+            example: "12345678912"
+          customerAddress: 
+            type: string
+            example: "Robert Robertson, 1234 NW Bobcat Lane, St. Robert, MO 65584-5678"
+          items: 
+            type: array
+            items:
+              type: object
+              properties:
+                name: 
+                  type: string
+                  example: "Kitkat"
+                quantity: 
+                  type: number
+                  example: 10
+                unitPrice: 
+                  type: number
+                  example: 3
+                discount:
+                  type: number
+                  example: 0.5
+    # Orders:
+    #   type: array
+    #   items:
+    #    $ref: "#/components/schemas/Order"
+
+

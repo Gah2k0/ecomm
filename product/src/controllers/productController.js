@@ -1,94 +1,80 @@
 import mongoose from 'mongoose';
-import products from '../models/Product.js';
+import Product from '../models/Product.js';
 import validateProduct from '../validations/productValidation.js';
 
 class ProductController {
 
     static getAllProducts = (_req, res) => {
-        products.find()
-            .populate('category.id')
-            .exec((err, products) => {
-                if(err){
-                    res.status(500).send({message: err.message});
-                    return;
-                };
-                res.status(200).send(products);
-            });
+        try {
+            Product.find()
+                .populate('category')
+                .exec((_, products) => {
+                    return res.status(200).send(products);
+                });
+        } catch (error) {
+            return res.status(500).send({message: error.message});
+        }
     }
     static getProductById = (req, res) => {
         let { id } = req.params;
-        if(!mongoose.isValidObjectId(id)){
-            res.status(400).send({message: "Invalid Object ID"})
-        } else {
-            products.findById(id)
-                .populate('category.id')
-                .exec((error, product) => {
-                        if(!error && category){
-                            res.status(200).send(product);
-                        } 
-                        else if(!error && !product) {
-                            res.status(404).send({message: 'Product does not exist.'})
-                        }
-                        else {
-                            res.status(500).send({message: `${error.message}`});
-                        };
+        try {
+            if(!mongoose.isValidObjectId(id))
+                return res.status(400).send({message: "Invalid Object ID"});
+
+            Product.findById(id)
+                .populate('category')
+                .exec((_, product) => {
+                        if(!product)
+                            return res.status(404).send({message: 'Product does not exist.'});
+
+                        return res.status(200).send(product);
                     });
+        } catch (error) {
+            return res.status(500).send({message: `${error.message}`});            
         }
     }
     static createProduct =  async (req, res) => {
-        let product = new products(req.body);
-        const productValidationErrors = await validateProduct(product);
-        if(productValidationErrors.length > 0){
-            res.status(400).send({message: productValidationErrors});
-        }
-        else{
-            product.save((error) => {
-                if(error){
-                    res.status(500).send({message: `${error.message}`})
-                } else {
-                    res.status(201).send(product.toJSON())
-                };
+        try {
+            let product = new Product(req.body);
+            const productValidationErrors = await validateProduct(product);
+            if(productValidationErrors.length > 0){
+                return res.status(400).send({message: productValidationErrors});
+            }
+            product.save((_) => {
+                    return res.status(201).json(product);
             });
-        };
+        } catch (error) {
+            return res.status(500).send({message: `${error.message}`});
+        }
     }
     static updateProduct = async (req, res) => {
         let { id } = req.params;
         let updatedProduct = req.body;
-        const productValidationErrors = await validateProduct(updatedProduct);
-        if(productValidationErrors.length > 0){
-            res.status(400).send({message: productValidationErrors});
+        try{
+            const productValidationErrors = await validateProduct(updatedProduct);
+            if(productValidationErrors.length > 0){
+                return res.status(400).send({message: productValidationErrors});
+            }
+            if(!mongoose.isValidObjectId(id))
+                return res.status(400).send({message: "Invalid product ID"});
+    
+            Product.findByIdAndUpdate(id, updatedProduct, (_) => {
+                return res.status(200).send("Product succesfully updated!")
+            });
+        } catch(error){
+            return res.status(500).send({message: `${error.message}`})
         }
-        products.findByIdAndUpdate(id, updatedProduct, (error) => {
-            if(!error){
-                res.status(200).send("Product succesfully updated!")
-            } else {
-                res.status(500).send({message: `${error.message}`})
-            };
-        });
     }
     static deleteProduct = (req, res) => {
         let { id } = req.params;
-
-        products.findByIdAndDelete(id, (error) => {
-            if(!error){
-                res.status(204).send("Product succesfully deleted!");
-            } else {
-                res.status(500).send({message: `${error.message}`});
-            };
-        });
+        try {
+            Product.findByIdAndDelete(id, (_) => {
+                return res.status(204).send("Product succesfully deleted!");
+            });
+        } catch (error) {
+            return res.status(500).send({message: `${error.message}`});            
+        }
     }
 }
-
-/* function validateProduct(product) {
-    const slugRegex = new RegExp(/^[a-zA-Z 0-9\-]*$/);
-    const mongoIdRegex = new RegExp(/^[0-9a-fA-F]{24}$/);
-    if(!validateName(product.name) || !slugRegex.test(product.slug) || product.unitPrice < 0 || (product.stockQuantity < 0 || product.stockQuantity > 10000) || !mongoIdRegex.test(product.category.id))
-        return false;
-    
-     categories.findById(product.category.id, (error, category) => {   
-        console.log(category);
-        return category;
-    });
-}*/
 
 export default ProductController

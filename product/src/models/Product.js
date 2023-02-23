@@ -7,11 +7,10 @@ const productSchema = new mongoose.Schema (
         slug: {type: String, required: true},
         unitPrice: {type: Number, required: true},
         stockQuantity: {type: Number},
-        category: { 
-            id: {type: mongoose.Schema.Types.ObjectId, ref: 'categories', required: true} },
+        category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true},
     }
 )
 
-const products = mongoose.model('products', productSchema);
+const Product = mongoose.model('Product', productSchema);
 
-export default products;
+export default Product;

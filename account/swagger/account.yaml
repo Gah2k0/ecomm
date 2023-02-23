@@ -68,7 +68,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Account"
+              $ref: "#/components/schemas/Create-Account"
       responses:
         200:
           description: User successfully updated!
@@ -100,29 +100,40 @@ components:
       properties:
         name: 
           type: string
+          example: John Doe
         email: 
           type: string
+          example: johndoe@example.com
         password: 
           type: string
+          example: John123!
         cpf: 
           type: string
+          example: 12345678912
         phone: 
           type: string
+          example: 51999999999
         address:
           type: object
           properties:
             street:
               type: string
+              example: Rua bonita
             number:
               type: string
+              example: 100
             complement:
               type: string
+              example: casa
             cep:
               type: string
+              example: 10000100
             city:
               type: string
+              example: Exemplo
             uf:
               type: string
+              example: SC
     Account: 
       type: object
       allOf:

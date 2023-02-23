@@ -1,3 +1,4 @@
+import isNullOrEmpty from './stringIsNullOrEmpty.js';
 
 function validateAccount(account) {
     const errors = [];
@@ -5,7 +6,8 @@ function validateAccount(account) {
     const validPasswordRegex = new RegExp(/(?=.*[a-z, A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/)
     const validCpfRegex = new RegExp(/^[0-9]{11}$/)
     const validPhoneRegex = new RegExp(/^[0-9]{10,13}$/)
-
+    if(isNullOrEmpty(account.name))
+        errors.push('Invalid name');
     if(!validEmailRegex.test(account.email))
         errors.push('Invalid email address');
     if(!validPasswordRegex.test(account.password))
