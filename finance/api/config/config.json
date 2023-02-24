@@ -8,8 +8,8 @@
   },
   "test": {
     "username": "root",
-    "password": null,
-    "database": "ECOMM",
+    "password": "secret",
+    "database": "ECOMM_TEST",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
