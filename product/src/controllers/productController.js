@@ -51,7 +51,7 @@ class ProductController {
         let { id } = req.params;
         let updatedProduct = req.body;
         try{
-            const productValidationErrors = await validateProduct(updatedProduct);
+            const productValidationErrors = await validateProduct(updatedProduct, !!updatedProduct.category);
             if(productValidationErrors.length > 0){
                 return res.status(400).send({message: productValidationErrors});
             }
