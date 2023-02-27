@@ -7,7 +7,7 @@ router
   .get('/api/accounts', AccountController.getAllAccounts)
   .get('/api/accounts/:id', AccountController.getAccountById)
   .post('/api/admin/accounts', AccountController.createAccount)
-  .put('/api/admin/accounts/:id', AccountController.updatedAccount)
+  .put('/api/admin/accounts/:id', AccountController.updateAccount)
   .delete('/api/admin/accounts/:id', AccountController.deleteAccount);
 
 export default router;

@@ -32,7 +32,7 @@ class AccountController {
     }
   };
 
-  static updatedAccount = (req, res) => {
+  static updateAccount = (req, res) => {
     const { id } = req.params;
     const updatedAccount = req.body;
     try {

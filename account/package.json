@@ -5,7 +5,7 @@
   "main": "test/createUserAccount.test.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
     "dev": "nodemon server.js"
   },
   "author": "Gabriel Francisco",
@@ -21,6 +21,8 @@
     "eslint": "^8.34.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",
-    "nodemon": "^2.0.20"
+    "jest": "^29.4.3",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3"
   }
 }
