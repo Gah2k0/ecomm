@@ -1,6 +1,6 @@
-import Order from '../models/Order.js';
-import { fetchAccount, fetchConfirmPayment } from '../utils/fetchApi.js';
-import ORDER_STATUS from '../constants/constants.js';
+import Order from '../models/Order';
+import { fetchAccount, fetchConfirmPayment } from '../utils/fetchApi';
+import ORDER_STATUS from '../constants/constants';
 
 class OrderController {
   static getOrderById = (req, res) => {
@@ -17,16 +17,15 @@ class OrderController {
     });
   };
 
+  // eslint-disable-next-line consistent-return
   static createOrder = async (req, res) => {
     const order = new Order({ ...req.body, status: ORDER_STATUS.REALIZADO });
     try {
       const { name, cpf, address } = await fetchAccount(order.customerId);
       if (!name || !cpf || !address) { return res.status(400).send({ message: 'The informed customer is invalid. Create an account to make an order.' }); }
-      order.save((_) => {
-        res.status(201).send(order.toJSON());
-      });
+      order.save(() => res.status(201).send(order.toJSON()));
     } catch (error) {
-      res.status(500).send({ message: `${error.message}` });
+      return res.status(500).send({ message: `${error.message}` });
     }
   };
 
@@ -51,7 +50,7 @@ class OrderController {
       }
       return res.status(400).send({ message: 'The order operation could not be completed because your payment could not be confirmed.' });
     } catch (error) {
-      res.status(500).send({ message: error.message });
+      return res.status(500).send({ message: error.message });
     }
   };
 }

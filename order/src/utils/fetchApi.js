@@ -1,5 +1,17 @@
-const fetchAccount = async (customerId) => {
-  const response = await fetch(`http://account:3001/api/accounts/${customerId}`, {
+const areWeTesting = process.env.JEST_WORKER_ID !== undefined;
+
+const CONFIG = {
+  accountHost: 'account',
+  financeHost: 'finance',
+};
+
+if (areWeTesting) {
+  CONFIG.accountHost = 'localhost';
+  CONFIG.financeHost = 'localhost';
+}
+
+export const fetchAccount = async (customerId) => {
+  const response = await fetch(`http://${CONFIG.accountHost}:3001/api/accounts/${customerId}`, {
     method: 'GET',
   })
     .then((response) => response.json())
@@ -7,8 +19,8 @@ const fetchAccount = async (customerId) => {
   return response;
 };
 
-const fetchConfirmPayment = async (paymentId, payLoad) => {
-  const response = await fetch(`http://finance:3004/payments/${paymentId}/confirm`, {
+export const fetchConfirmPayment = async (paymentId, payLoad) => {
+  const response = await fetch(`http://${CONFIG.financeHost}:3004/payments/${paymentId}/confirm`, {
     method: 'POST',
     body: JSON.stringify(payLoad),
     headers: {
@@ -18,4 +30,3 @@ const fetchConfirmPayment = async (paymentId, payLoad) => {
     .then((response) => (response.status === 200 ? response.json() : false));
   return response;
 };
-export { fetchAccount, fetchConfirmPayment };
