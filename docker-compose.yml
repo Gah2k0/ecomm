@@ -4,6 +4,10 @@ services:
     build: ./account/
     ports:
       - 3001:3001
+    volumes:
+      - ./account:/app-node
+    environment:
+      - DB_HOST=mongodb
     depends_on:
       - mongodb
       
@@ -11,6 +15,10 @@ services:
     build: ./product/
     ports:
       - 3002:3002
+    volumes:
+      - ./product:/app-node
+    environment:
+      - DB_HOST=mongodb
     depends_on:
       - mongodb
 
@@ -18,6 +26,10 @@ services:
     build: ./order/
     ports:
       - 3003:3003
+    volumes:
+      - ./order:/app-node
+    environment:
+      - DB_HOST=mongodb
     depends_on:
       - mongodb
 
@@ -25,6 +37,10 @@ services:
     build: ./finance/
     ports:
       - 3004:3004
+    volumes:
+      - ./finance:/app-node
+    environment:
+      - DB_HOST=mysql
     depends_on:
       - mysql
 
