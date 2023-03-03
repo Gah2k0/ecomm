@@ -5,13 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --detectOpenHandles --coverage",
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "author": "Gabriel Francisco",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.9.1",
     "swagger-ui-express": "^4.6.0",

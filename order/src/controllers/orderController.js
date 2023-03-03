@@ -1,6 +1,6 @@
-import Order from '../models/Order';
-import { fetchAccount, fetchConfirmPayment } from '../utils/fetchApi';
-import ORDER_STATUS from '../constants/constants';
+import Order from '../models/Order.js';
+import { fetchAccount, fetchConfirmPayment } from '../utils/fetchApi.js';
+import ORDER_STATUS from '../constants/constants.js';
 
 class OrderController {
   static getOrderById = (req, res) => {
