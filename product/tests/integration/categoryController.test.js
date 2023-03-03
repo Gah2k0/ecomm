@@ -1,5 +1,7 @@
 import request from 'supertest';
-import app from '../../src/app.js';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { describe, it, expect } from '@jest/globals';
+import app from '../../src/app';
 
 describe('Category Controller', () => {
   let newCategoryId;
@@ -35,10 +37,22 @@ describe('Category Controller', () => {
     const response = await request(app)
       .put(`/api/admin/categories/${newCategoryId}`)
       .send({
+        name: 'Testando',
         status: false,
       });
 
     expect(response.status).toEqual(200);
+  });
+
+  it('Should not be able to update a specific category', async () => {
+    const response = await request(app)
+      .put(`/api/admin/categories/${newCategoryId}`)
+      .send({
+        name: '    ',
+        status: false,
+      });
+
+    expect(response.status).toEqual(400);
   });
 
   it('Should be able to update a specific category status', async () => {

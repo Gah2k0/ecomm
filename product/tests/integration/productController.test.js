@@ -1,5 +1,7 @@
 import request from 'supertest';
-import app from '../../src/app.js';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { describe, it, expect } from '@jest/globals';
+import app from '../../src/app';
 
 describe('Product Controller', () => {
   let newProductId;
@@ -23,7 +25,7 @@ describe('Product Controller', () => {
     expect(response.statusCode).toEqual(201);
   });
 
-  it('Should be able get all the products', async () => {
+  it('Should be able to get all products', async () => {
     const response = await request(app)
       .get('/api/products')
       .set('Accept', 'application/json')
@@ -32,7 +34,7 @@ describe('Product Controller', () => {
     expect(response.statusCode).toEqual(200);
   });
 
-  it('Should be able get a specific product', async () => {
+  it('Should be able to get a specific product', async () => {
     const response = await request(app)
       .get(`/api/products/${newProductId}`)
       .set('Accept', 'application/json')
