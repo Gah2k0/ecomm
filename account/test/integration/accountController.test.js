@@ -81,6 +81,6 @@ describe('Account Controller', () => {
   it('Should be able to delete an account', async () => {
     const response = await request(app)
       .delete(`/api/admin/accounts/${newAccountId}`);
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(204);
   });
 });

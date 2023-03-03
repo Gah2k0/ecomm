@@ -47,7 +47,7 @@ class AccountController {
   static deleteAccount = (req, res) => {
     const { id } = req.params;
     try {
-      return Account.findByIdAndDelete(id, () => res.status(200).send('Account succesfully deleted!'));
+      return Account.findByIdAndDelete(id, () => res.status(204).send());
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
     }
