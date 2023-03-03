@@ -1,5 +1,15 @@
 import isNullOrEmpty from './stringIsNullOrEmpty.js';
 
+function validateAddress(address) {
+  const errors = [];
+  const ufs = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
+  const validCepRegex = new RegExp(/^\d{8}$/);
+
+  if (!validCepRegex.test(address.cep)) { errors.push('Invalid CEP, CEP must contain exactly 8 digits'); }
+  if (!ufs.includes(address.uf)) { errors.push('Invalid UF'); }
+  return errors;
+}
+
 function validateAccount(account) {
   const errors = [];
   const validEmailRegex = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
@@ -12,16 +22,6 @@ function validateAccount(account) {
   if (!validCpfRegex.test(account.cpf)) { errors.push('Invalid CPF'); }
   if (!validPhoneRegex.test(account.phone)) { errors.push('Invalid phone number'); }
   errors.push(...validateAddress(account.address));
-  return errors;
-}
-
-function validateAddress(address) {
-  const errors = [];
-  const ufs = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
-  const validCepRegex = new RegExp(/^\d{8}$/);
-
-  if (!validCepRegex.test(address.cep)) { errors.push('Invalid CEP, CEP must contain exactly 8 digits'); }
-  if (!ufs.includes(address.uf)) { errors.push('Invalid UF'); }
   return errors;
 }
 

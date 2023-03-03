@@ -13,7 +13,7 @@ class AccountController {
     try {
       const accountValidationErrors = validateAccount(account);
       if (accountValidationErrors.length > 0) { return res.status(400).send({ message: accountValidationErrors }); }
-      account.save((_) => res.status(201).json(account));
+      return account.save(() => res.status(201).json(account));
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
     }
@@ -22,9 +22,8 @@ class AccountController {
   static getAccountById = (req, res) => {
     const { id } = req.params;
     try {
-      Account.findById(id, (errors, account) => {
+      return Account.findById(id, (errors, account) => {
         if (account) { return res.status(200).json(account); }
-        (!account);
         return res.status(404).send({ message: 'User not found' });
       });
     } catch (error) {
@@ -39,7 +38,7 @@ class AccountController {
       const accountValidationErrors = validateAccount(updatedAccount);
       if (accountValidationErrors.length > 0) { return res.status(400).send({ message: accountValidationErrors }); }
 
-      Account.findByIdAndUpdate(id, updatedAccount, (_) => res.status(200).send('Account succesfully updated!'));
+      return Account.findByIdAndUpdate(id, updatedAccount, () => res.status(200).send('Account succesfully updated!'));
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
     }
@@ -48,7 +47,7 @@ class AccountController {
   static deleteAccount = (req, res) => {
     const { id } = req.params;
     try {
-      Account.findByIdAndDelete(id, (error) => res.status(200).send('Account succesfully deleted!'));
+      return Account.findByIdAndDelete(id, () => res.status(200).send('Account succesfully deleted!'));
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
     }

@@ -13,6 +13,20 @@
     "rules": {
         "import/extensions": 0,
         "no-underscore-dangle": 0,
-        "no-console": 0
+        "no-console": 0,
+        "max-len": [
+            "error",
+            {
+              "code": 200,
+              "tabWidth": 2,
+              "ignoreComments": true, //"comments": 80
+              "ignoreUrls": true,
+              "ignoreStrings": true,
+              "ignoreTemplateLiterals": true
+            }
+          ],
+        "array-callback-return": 0,
+        "prefer-regex-literals": 0,
+        "no-useless-escape": 0
     }
 }
