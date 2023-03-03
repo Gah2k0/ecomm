@@ -1,5 +1,23 @@
+import mongoose from 'mongoose';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {
+  it, expect, describe, beforeAll, afterAll,
+} from '@jest/globals';
 import request from 'supertest';
+import dotenv from 'dotenv';
 import app from '../../src/app.js';
+
+dotenv.config();
+
+const DB_HOST = process.env.DB_HOST || 'localhost';
+
+beforeAll(async () => {
+  await mongoose.connect(`mongodb://admin:secret@${DB_HOST}:27017/ecomm-account-test?authSource=admin`);
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
 
 describe('Account Controller', () => {
   let newAccountId;
