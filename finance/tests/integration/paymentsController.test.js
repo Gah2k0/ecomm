@@ -1,19 +1,17 @@
 const request = require('supertest');
-const app = require('../../api/app.js');
-const PAYMENT_STATUS = require('../../api/constants/constants.js');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { describe, it, expect } = require('@jest/globals');
+const app = require('../../api/app');
+const PAYMENT_STATUS = require('../../api/constants/constants');
+const createPaymentMock = require('../mocks/createPaymentMock');
+const confirmPaymentPayloadMock = require('../mocks/confirmPaymentPayloadMock');
 
 describe('Payments Controller', () => {
   let newPaymentId;
   it('Should be able to create a new payment', async () => {
     const response = await request(app)
       .post('/payments')
-      .send({
-        nameOnCard: 'Gabriel Francisco',
-        value: 100,
-        cardNumber: '1234567812345678',
-        expirationDate: '2023-03',
-        cvv: '123',
-      });
+      .send(createPaymentMock);
     newPaymentId = response.body.id;
     expect(response.body.status).toEqual(PAYMENT_STATUS.CRIADO);
   });
@@ -30,19 +28,7 @@ describe('Payments Controller', () => {
   it('Should be able to confirm a payment', async () => {
     const response = await request(app)
       .post(`/payments/${newPaymentId}/confirm`)
-      .send({
-        customerName: 'Gabriel Francisco',
-        customerCpf: '12345678912',
-        customerAddress: 'Rua Cascata,87,Casa,94015380,Gravataí,RS',
-        items: [
-          {
-            name: 'Teste',
-            quantity: 2,
-            unitPrice: 100,
-            discount: 5,
-          },
-        ],
-      })
+      .send(confirmPaymentPayloadMock)
       .set('Accept', 'application/json')
       .expect('content-type', /json/);
 
@@ -52,13 +38,7 @@ describe('Payments Controller', () => {
   it('Should be able to cancel a payment', async () => {
     const newPayment = await request(app)
       .post('/payments')
-      .send({
-        nameOnCard: 'Gabriel Francisco',
-        value: 100,
-        cardNumber: '1234567812345678',
-        expirationDate: '2023-03',
-        cvv: '123',
-      });
+      .send(createPaymentMock);
     const paymentId = newPayment.body.id;
 
     const response = await request(app)
