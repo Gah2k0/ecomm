@@ -1,7 +1,23 @@
 import request from 'supertest';
+import mongoose from 'mongoose';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { describe, it, expect } from '@jest/globals';
+import {
+  describe, it, expect, beforeAll, afterAll,
+} from '@jest/globals';
+import dotenv from 'dotenv';
 import app from '../../src/app';
+
+dotenv.config();
+
+const DB_HOST = process.env.DB_HOST || 'localhost';
+
+beforeAll(async () => {
+  await mongoose.connect(`mongodb://admin:secret@${DB_HOST}:27017/ecomm-test?authSource=admin`);
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
 
 describe('Category Controller', () => {
   let newCategoryId;

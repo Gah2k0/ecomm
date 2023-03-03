@@ -5,7 +5,7 @@ import CATEGORY_STATUS from '../constants/categoryStatus.js';
 class CategoryController {
   static getAllCategories = (_req, res) => {
     try {
-      Category.find((_, categories) => res.status(200).send(categories));
+      return Category.find((_, categories) => res.status(200).send(categories));
     } catch (error) {
       return res.status(500).send({ message: error.message });
     }
@@ -14,7 +14,7 @@ class CategoryController {
   static getCategoryById = (req, res) => {
     const { id } = req.params;
     try {
-      Category.findById(id, (_, category) => {
+      return Category.findById(id, (_, category) => {
         if (!category) { return res.status(404).send({ message: 'Category does not exist.' }); }
         return res.status(200).send(category);
       });
@@ -28,7 +28,7 @@ class CategoryController {
     try {
       if (!validateName(category.name)) { return res.status(400).send({ message: 'Category name must start with a letter and must be at least 4 characters long' }); }
 
-      category.save((_) => res.status(201).json(category));
+      return category.save(() => res.status(201).json(category));
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
     }
@@ -40,7 +40,7 @@ class CategoryController {
     try {
       if (!validateName(updatedCategory.name, !!updatedCategory.name)) { return res.status(400).send({ message: 'Category name must start with a letter and must be at least 4 characters long' }); }
 
-      Category.findByIdAndUpdate(id, updatedCategory, (_) => res.status(200).send('Category succesfully updated!'));
+      return Category.findByIdAndUpdate(id, updatedCategory, () => res.status(200).send('Category succesfully updated!'));
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
     }
@@ -49,7 +49,7 @@ class CategoryController {
   static activateCategory = (req, res) => {
     const { id } = req.params;
     try {
-      Category.findByIdAndUpdate(id, { $set: { status: CATEGORY_STATUS.ACTIVE } }, (_) => res.status(200).send('Category succesfully activated!'));
+      return Category.findByIdAndUpdate(id, { $set: { status: CATEGORY_STATUS.ACTIVE } }, () => res.status(200).send('Category succesfully activated!'));
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
     }
@@ -58,7 +58,7 @@ class CategoryController {
   static deleteCategory = (req, res) => {
     const { id } = req.params;
     try {
-      Category.findByIdAndDelete(id, (_) => res.status(204).send('Category succesfully deleted!'));
+      return Category.findByIdAndDelete(id, () => res.status(204).send('Category succesfully deleted!'));
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
     }
