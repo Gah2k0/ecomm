@@ -11,10 +11,12 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "no-unused-expressions": 0,
+        "import/extensions": 0,
         "max-len": [
             "error",
             {
-              "code": 150,
+              "code": 200,
               "tabWidth": 2,
               "ignoreComments": true, //"comments": 80
               "ignoreUrls": true,

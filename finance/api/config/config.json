@@ -10,7 +10,7 @@
     "username": "root",
     "password": "secret",
     "database": "ECOMM_TEST",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
