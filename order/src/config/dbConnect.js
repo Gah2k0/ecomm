@@ -6,7 +6,7 @@ dotenv.config();
 const DB_HOST = process.env.DB_HOST || 'localhost';
 
 const dbConfig = {
-  url: `mongodb://admin:secret@${DB_HOST}:27017/Ecomm-order?authSource=admin`,
+  url: `mongodb://admin:secret@${DB_HOST}:27017/ecomm-order?authSource=admin`,
 };
 
 mongoose.connect(dbConfig.url);

@@ -1,19 +1,24 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
-  it, expect, describe, jest,
+  it, expect, describe, jest, beforeAll, afterAll,
 } from '@jest/globals';
+import mongoose from 'mongoose';
 import request from 'supertest';
+import dotenv from 'dotenv';
 import app from '../../src/app';
 import orderMock from '../mocks/orderMock';
-// import * as fetchApi from '../../src/utils/fetchApi';
 
-// jest.mock('fetchApi', () => ({
-//   __esModule: true,
-//   fetchAccount: jest.fn(() => Promise.resolve({
-//     json: () => Promise.resolve({ name: 'Gabriel', cpf: '12345678912', address: 'Rua bonita' }),
-//   })),
-//   fetchPayment: jest.fn(() => Promise.resolve({ status: 200 })),
-// }));
+dotenv.config();
+
+const DB_HOST = process.env.DB_HOST || 'localhost';
+
+beforeAll(async () => {
+  await mongoose.connect(`mongodb://admin:secret@${DB_HOST}:27017/ecomm-order-test?authSource=admin`);
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
 
 describe('Order controller', () => {
   let newOrderId;

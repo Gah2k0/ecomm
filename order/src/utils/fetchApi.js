@@ -11,16 +11,16 @@ if (areWeTesting) {
 }
 
 export const fetchAccount = async (customerId) => {
-  const response = await fetch(`http://${CONFIG.accountHost}:3001/api/accounts/${customerId}`, {
+  const fetchResponse = await fetch(`http://${CONFIG.accountHost}:3001/api/accounts/${customerId}`, {
     method: 'GET',
   })
     .then((response) => response.json())
     .then((data) => data);
-  return response;
+  return fetchResponse;
 };
 
 export const fetchConfirmPayment = async (paymentId, payLoad) => {
-  const response = await fetch(`http://${CONFIG.financeHost}:3004/payments/${paymentId}/confirm`, {
+  const fetchResponse = await fetch(`http://${CONFIG.financeHost}:3004/payments/${paymentId}/confirm`, {
     method: 'POST',
     body: JSON.stringify(payLoad),
     headers: {
@@ -28,5 +28,5 @@ export const fetchConfirmPayment = async (paymentId, payLoad) => {
     },
   })
     .then((response) => (response.status === 200 ? response.json() : false));
-  return response;
+  return fetchResponse;
 };
