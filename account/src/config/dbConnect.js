@@ -1,12 +1,13 @@
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
+dotenv.config();
+
+const DB_HOST = process.env.DB_HOST || 'localhost';
+
 const dbConfig = {
-  url: 'mongodb://admin:secret@mongodb:27017/ecomm-account?authSource=admin',
+  url: `mongodb://admin:secret@${DB_HOST}:27017/ecomm-account?authSource=admin`,
 };
-
-const areWeTesting = process.env.JEST_WORKER_ID !== undefined;
-
-if (areWeTesting) dbConfig.url = 'mongodb://admin:secret@localhost:27017/ecomm-account?authSource=admin';
 
 mongoose.connect(dbConfig.url);
 
