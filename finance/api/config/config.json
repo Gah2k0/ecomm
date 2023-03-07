@@ -8,9 +8,9 @@
   },
   "test": {
     "username": "root",
-    "password": null,
-    "database": "ECOMM",
-    "host": "127.0.0.1",
+    "password": "secret",
+    "database": "ECOMM_TEST",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "production": {

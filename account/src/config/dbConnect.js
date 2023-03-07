@@ -1,13 +1,16 @@
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-const dbConfig = { 
-    url: 'mongodb://mongodb:27017/ecomm-account',
-    user: 'admin',
-    pwd: 'secret'
+dotenv.config();
+
+const DB_HOST = process.env.DB_HOST || 'localhost';
+
+const dbConfig = {
+  url: `mongodb://admin:secret@${DB_HOST}:27017/ecomm-account?authSource=admin`,
 };
 
-mongoose.connect('mongodb://admin:secret@mongodb:27017/ecomm-account?authSource=admin')
+mongoose.connect(dbConfig.url);
 
-let db = mongoose.connection;
+const db = mongoose.connection;
 
 export default db;

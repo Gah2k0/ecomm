@@ -1,7 +1,7 @@
-'use strict';
 const {
-  Model
+  Model,
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Payments extends Model {
     /**
@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Payments.hasOne(models.Invoices, {
-        foreignKey: 'payment_id'
-      })
+        foreignKey: 'payment_id',
+      });
     }
   }
   Payments.init({
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     cardNumber: DataTypes.STRING(16),
     expirationDate: DataTypes.STRING(7),
     cvv: DataTypes.STRING(3),
-    status: { type:DataTypes.STRING, allowNull: false }
+    status: { type: DataTypes.STRING, allowNull: false },
   }, {
     sequelize,
     modelName: 'Payments',
