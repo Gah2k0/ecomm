@@ -1,6 +1,7 @@
 import Account from '../models/Account.js';
 import validateAccount from '../validations/accountValidation.js';
 import hashPassword from '../utils/passwordHashing.js';
+import createJwtToken from '../auth/createToken.js';
 
 class AccountController {
   static getAllAccounts = (_req, res) => {
@@ -53,6 +54,16 @@ class AccountController {
       return Account.findByIdAndDelete(id, () => res.status(204).send());
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
+    }
+  };
+
+  static login = (req, res) => {
+    try {
+      const token = createJwtToken(req.user);
+      res.set('Authorization', token);
+      res.status(204).send();
+    } catch (error) {
+      res.status(400).send(error.message);
     }
   };
 }
