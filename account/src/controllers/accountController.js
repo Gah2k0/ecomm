@@ -1,5 +1,6 @@
 import Account from '../models/Account.js';
 import validateAccount from '../validations/accountValidation.js';
+import hashPassword from '../utils/passwordHashing.js';
 
 class AccountController {
   static getAllAccounts = (_req, res) => {
@@ -8,11 +9,13 @@ class AccountController {
     });
   };
 
-  static createAccount = (req, res) => {
+  static createAccount = async (req, res) => {
     const account = new Account(req.body);
     try {
       const accountValidationErrors = validateAccount(account);
       if (accountValidationErrors.length > 0) { return res.status(400).send({ message: accountValidationErrors }); }
+
+      account.password = hashPassword(account.password);
       return account.save(() => res.status(201).json(account));
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
