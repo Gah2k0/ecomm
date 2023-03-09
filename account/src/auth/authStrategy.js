@@ -3,12 +3,9 @@ import bearerStrategy from 'passport-http-bearer';
 import passport from 'passport';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import Account from '../models/Account.js';
 import InvalidArgumentError from '../errors.js';
 import { tokenExists } from '../../redis/blacklistFunctions.js';
-
-dotenv.config();
 
 const LocalStrategy = localStrategy.Strategy;
 const BearerStrategy = bearerStrategy.Strategy;
