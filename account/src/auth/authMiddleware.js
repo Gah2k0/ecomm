@@ -4,7 +4,7 @@ const authLocalMiddleware = (req, res, next) => {
   passport.authenticate(
     'local',
     { session: false },
-    (error, account, info) => {
+    (error, account) => {
       if (error && error.name === 'InvalidArgumentError') {
         return res.status(400).json({ error: error.message });
       }
