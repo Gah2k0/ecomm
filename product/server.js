@@ -1,5 +1,8 @@
+import dotenv from 'dotenv';
 import app from './src/app.js';
 import db from './src/config/dbConnect.js';
+
+dotenv.config();
 
 const port = process.env.PORT || 3002;
 
