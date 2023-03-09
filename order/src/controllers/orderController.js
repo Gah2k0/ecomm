@@ -31,6 +31,7 @@ class OrderController {
 
   static confirmOrder = async (req, res) => {
     const { id, paymentId } = req.params;
+    const token = req.headers.authorization;
     try {
       const order = await Order.findById(id);
       if (!order || order.status !== ORDER_STATUS.REALIZADO) { return res.status(404).send({ message: 'This order does not exist or is already confirmed.' }); }
@@ -43,7 +44,7 @@ class OrderController {
         address,
         items: order.items,
       };
-      const paymentConfirmation = await fetchConfirmPayment(paymentId, payLoad);
+      const paymentConfirmation = await fetchConfirmPayment(paymentId, payLoad, token);
       if (paymentConfirmation) {
         await Order.findByIdAndUpdate(id, { status: ORDER_STATUS.PAGO });
         return res.status(200).send(paymentConfirmation);
