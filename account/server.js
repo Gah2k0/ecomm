@@ -1,5 +1,6 @@
 import app from './src/app.js';
 import db from './src/config/dbConnect.js';
+import blacklist from './redis/blacklist.js';
 
 const port = process.env.PORT || 3001;
 

@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import Account from '../models/Account.js';
 import InvalidArgumentError from '../errors.js';
+import { tokenExists } from '../../redis/blacklistFunctions.js';
 
 dotenv.config();
 
@@ -20,6 +21,11 @@ function verifyPassword(loginPassword, accountPassword) {
 async function searchForAccount(email) {
   const account = await Account.findOne({ email });
   return account;
+}
+
+async function verifyTokenOnBlacklist(token) {
+  const isTokenOnBlacklist = await tokenExists(token);
+  if (isTokenOnBlacklist) throw new jwt.JsonWebTokenError('Logout has been made with this token');
 }
 
 passport.use(
@@ -43,9 +49,10 @@ passport.use(
   new BearerStrategy(
     async (token, done) => {
       try {
+        await verifyTokenOnBlacklist(token);
         const payload = jwt.verify(token, process.env.JWT_SECRET);
         const account = await Account.findById(payload.id);
-        done(null, account);
+        done(null, account, { token });
       } catch (error) {
         done(error);
       }

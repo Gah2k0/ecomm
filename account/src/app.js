@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import routes from './routes/index.js';
-import './auth/accountAuth.js';
+import './auth/authStrategy.js';
 
 const app = express();
 

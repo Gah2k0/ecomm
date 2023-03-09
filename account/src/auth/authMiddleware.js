@@ -27,7 +27,7 @@ const authBearerMiddleware = (req, res, next) => {
   passport.authenticate(
     'bearer',
     { session: false },
-    (error, account) => {
+    (error, account, info) => {
       if (error && error.name === 'JsonWebTokenError') {
         return res.status(400).json({ error: error.message });
       }
@@ -44,6 +44,7 @@ const authBearerMiddleware = (req, res, next) => {
         return res.status(401).json();
       }
 
+      req.token = info.token;
       req.user = account;
       return next();
     },

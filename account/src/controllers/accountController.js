@@ -2,6 +2,7 @@ import Account from '../models/Account.js';
 import validateAccount from '../validations/accountValidation.js';
 import hashPassword from '../utils/passwordHashing.js';
 import createJwtToken from '../auth/createToken.js';
+import { addToken } from '../../redis/blacklistFunctions.js';
 
 class AccountController {
   static getAllAccounts = (_req, res) => {
@@ -65,6 +66,12 @@ class AccountController {
     } catch (error) {
       res.status(400).send(error.message);
     }
+  };
+
+  static logout = async (req, res) => {
+    const { token } = req;
+    await addToken(token);
+    res.status(204).send();
   };
 }
 
