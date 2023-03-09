@@ -1,6 +1,5 @@
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const passport = require('passport');
-const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 passport.use(

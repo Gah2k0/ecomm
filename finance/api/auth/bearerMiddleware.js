@@ -20,7 +20,6 @@ const authBearerMiddleware = (req, res, next) => {
       if (!account) {
         return res.status(401).json();
       }
-
       req.user = account;
       return next();
     },
