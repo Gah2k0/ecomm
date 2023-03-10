@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import app from './src/app.js';
 import db from './src/config/dbConnect.js';
+import blacklist from './redis/blacklist.js';
 
 dotenv.config();
 
