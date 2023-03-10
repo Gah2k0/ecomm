@@ -44,6 +44,7 @@ services:
       - DB_HOST=mysql
     depends_on:
       - mysql
+      - redis
 
   mongodb:
     container_name: mongo-ecomm

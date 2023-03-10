@@ -1,5 +1,6 @@
-const app = require('./api/app.js');
 const dotenv = require('dotenv').config();
+const app = require('./api/app.js');
+const blacklist = require('./redis/blacklist.js');
 
 const port = process.env.PORT || 3004;
 
