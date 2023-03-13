@@ -22,7 +22,9 @@ class OrderController {
     const order = new Order({ ...req.body, status: ORDER_STATUS.REALIZADO });
     try {
       const { name, cpf, address } = await fetchAccount(order.customerId);
-      if (!name || !cpf || !address) { return res.status(400).send({ message: 'The informed customer is invalid. Create an account to make an order.' }); }
+      if (!name || !cpf || !address) {
+        return res.status(400).send({ message: 'The informed customer is invalid. Create an account to make an order.' });
+      }
       order.save(() => res.status(201).send(order.toJSON()));
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
@@ -34,9 +36,13 @@ class OrderController {
     const token = req.headers.authorization;
     try {
       const order = await Order.findById(id);
-      if (!order || order.status !== ORDER_STATUS.REALIZADO) { return res.status(404).send({ message: 'This order does not exist or is already confirmed.' }); }
+      if (!order || order.status !== ORDER_STATUS.REALIZADO) {
+        return res.status(404).send({ message: 'This order does not exist or is already confirmed.' });
+      }
       const { name, cpf, address } = await fetchAccount(order.customerId);
-      if (!name || !cpf || !address) { return res.status(400).send({ message: 'This order does not have a valid account for confirming. Please contact the support' }); }
+      if (!name || !cpf || !address) {
+        return res.status(400).send({ message: 'This order does not have a valid account for confirming. Please contact the support' });
+      }
 
       const payLoad = {
         name,
