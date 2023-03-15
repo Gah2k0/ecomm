@@ -3,21 +3,19 @@ import { fetchAccount, fetchConfirmPayment } from '../utils/fetchApi.js';
 import ORDER_STATUS from '../constants/constants.js';
 
 class OrderController {
-  static getOrderById = (req, res) => {
+  static getOrderById = async (req, res) => {
     const { id } = req.params;
-
-    Order.findById(id, (error, order) => {
-      if (!error && order) {
-        res.status(200).send(order);
-      } else if (!error && !order) {
-        res.status(404).send({ message: 'Order does not exist.' });
-      } else {
-        res.status(500).send({ message: `${error.message}` });
+    try {
+      const order = await Order.findById(id);
+      if (!order) {
+        return res.status(404).send({ message: 'Order does not exist.' });
       }
-    });
+      return res.status(200).send(order);
+    } catch (error) {
+      return res.status(500).send({ message: `${error.message}` });
+    }
   };
 
-  // eslint-disable-next-line consistent-return
   static createOrder = async (req, res) => {
     const order = new Order({ ...req.body, status: ORDER_STATUS.REALIZADO });
     try {
@@ -25,7 +23,8 @@ class OrderController {
       if (!name || !cpf || !address) {
         return res.status(400).send({ message: 'The informed customer is invalid. Create an account to make an order.' });
       }
-      order.save(() => res.status(201).send(order.toJSON()));
+      await order.save();
+      return res.status(201).send(order.toJSON());
     } catch (error) {
       return res.status(500).send({ message: `${error.message}` });
     }
