@@ -1,7 +1,4 @@
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-
-dotenv.config();
 
 const DB_HOST = process.env.DB_HOST || 'localhost';
 

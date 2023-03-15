@@ -1,5 +1,6 @@
 const express = require('express');
 const routes = require('./routes/index.js');
+require('./auth/bearerStrategy');
 
 const app = express();
 

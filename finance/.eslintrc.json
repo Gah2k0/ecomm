@@ -1,6 +1,5 @@
 {
     "env": {
-        "browser": true,
         "commonjs": true,
         "es2021": true
     },
@@ -23,6 +22,7 @@
               "ignoreStrings": true,
               "ignoreTemplateLiterals": true
             }
-          ]
+          ],
+          "linebreak-style": 0
     }
 }
