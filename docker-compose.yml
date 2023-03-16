@@ -12,7 +12,7 @@ services:
       - mongodb
       - redis
       
-  product-container:
+  product:
     build: ./product/
     ports:
       - 3002:3002
@@ -45,6 +45,20 @@ services:
     depends_on:
       - mysql
       - redis
+
+  api-gateway:
+    build: ./gateway/
+    ports:
+      - 3000:3000
+    volumes:
+      - ./gateway:/app-node
+    environment:
+      - PRODUCT_HOST=product
+    depends_on:
+      - account
+      - product
+      - finance 
+      - order
 
   mongodb:
     container_name: mongo-ecomm
