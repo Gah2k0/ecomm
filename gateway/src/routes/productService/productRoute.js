@@ -1,6 +1,6 @@
 import express from 'express';
-import authBearerMiddleware from '../authentication/bearerMiddleware.js';
 import httpProxy from 'express-http-proxy';
+import authBearerMiddleware from '../../authentication/bearerMiddleware.js';
 
 const productRoutes = express.Router();
 

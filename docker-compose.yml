@@ -54,6 +54,9 @@ services:
       - ./gateway:/app-node
     environment:
       - PRODUCT_HOST=product
+      - FINANCE_HOST=finance
+      - ACCOUNT_HOST=account
+      - ORDER_HOST=order
     depends_on:
       - account
       - product
