@@ -65,12 +65,14 @@ services:
 
   mongodb:
     container_name: mongo-ecomm
-    image: mongo
+    image: mongo:5
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=secret
     ports:
       - "27017:27017"
+    volumes:
+      - db-mongo-ecomm:/data/db
 
   mysql:
     container_name: mysql-ecomm
