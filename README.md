@@ -2,6 +2,14 @@
 
 Projeto de Ecommerce criando durante o programa LevelUp da Alura 
 
+## Instruções gerais da aplicação
+
+Para rodar a aplicação locamente é necessário realizar alguns passos para o pleno funcionamento dos serviços.
+- Criar os bancos de dados no MySql e realizar as migrations do serviço finance
+- É necessário configurar via kubernets ou em alguma plataforma de Cloud os acessos aos services da aplicação, o único service que deve ser acessível para a internet é o API Gateway, os demais serviços devem receber as requisições sempre através do API Gateway e nunca diretamente pelo cliente
+- Logs ainda serão sendo implementados nos services
+- É necessário a configuração da variável de ambiente do JWT_SECRET para criação e verificação dos tokens, através de arquivo .env
+
 ## Twelve-Factors 
 
 - I. Codebase 
@@ -25,7 +33,7 @@ Projeto de Ecommerce criando durante o programa LevelUp da Alura
 - X. Dev/prod parity
     - Existe uma paridade entre ambientes garantida pelo uso do Docker.
 - XI. Logs
-    - Logs são gravados apenas quando a aplicação começa a rodar e em conexões a backing services.
+    - Logs são gravados apenas quando a aplicação começa a rodar e em conexões a backing services, porém serão implementados.
 - XII. Admin processes
     - Não foi realizado, até existem alguns scripts de inserção de usuários no Banco de dados e as migrations como histórico, porém não é seguido de forma explicíta.
 
@@ -36,7 +44,7 @@ Projeto de Ecommerce criando durante o programa LevelUp da Alura
 - Serviços de negócio
     - É implementado através da API de Order que depende dos services de Account e Finance.
 - API Gateway
-    - Não foi implementado.
+    - Foi implementado para ponto de acesso único dos serviços e processo de autenticação do JWT. 
 - Agregador de processos
     - Foi implementado um serviço de negócio, mas não um agregador de processos.
 - Edge service
