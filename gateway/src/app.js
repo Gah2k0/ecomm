@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors';
 import productRoutes from './routes/productService/productRoute.js';
 import categoryRoutes from './routes/productService/categoryRoute.js';
 import accountRoutes from './routes/accountService/accountRoutes.js';
@@ -9,6 +10,10 @@ import './authentication/bearerStrategy.js';
 const app = express();
 
 app.use(express.json());
+app.use(cors({
+    origin: '*',
+    exposedHeaders: 'authorization'
+}));
 
 app.use('/', productRoutes);
 app.use('/', categoryRoutes);

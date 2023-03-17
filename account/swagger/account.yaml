@@ -3,10 +3,17 @@ info:
   title: Ecomm - Account
   description: API to create, update and search the accounts of the Account API 
   version: 0.0.1
+servers:
+  - url: http://localhost:3000
+    description: API Gateway
+  - url: http://localhost:3001
+    description: The service direct address(does not authenticate)
 paths:
   /api/accounts:
     get:
       summary: Returns users
+      security:
+        - BearerAuth: []
       description: Returns all the existing users
       responses: 
         200: 
@@ -15,6 +22,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Accounts"
+        401:
+          $ref: "#/components/responses/Unauthorized"
   /api/accounts/{id}:
     parameters:
     - name: id
@@ -33,13 +42,40 @@ paths:
               schema:
                 $ref: "#/components/schemas/Account"
         404:
-          description: User not found
-          content:
-            application/json:
-              example: "Not Found"
+          $ref: "#/components/responses/NotFound"
+  /api/accounts/login:
+    post:
+      summary: Admin login
+      description: Receives an email and a password to authenticate the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Account-Login"
+      responses: 
+        204:
+          description: Ok
+          headers:
+            authorization:
+              schema:
+                type: string
+              description: The JWT to be used for authentication.
+  /api/admin/accounts/logout:
+    get:
+      summary: Admin logout
+      security:
+        - BearerAuth: []
+      description: Receives the authentication token by headers and logout the token
+      responses:
+        204:
+          description: Ok
+        401:
+          $ref: "#/components/responses/Unauthorized"
   /api/admin/accounts:
     post:
       summary: Creates a new user
+      security:
+        - BearerAuth: []
       description: Receives a new user and saves it in the database
       requestBody:
         content:
@@ -50,10 +86,7 @@ paths:
         201: 
           description: User successfully created!
         401:
-          description: UNAUTHORIZED! User could not be created because you don't have admin rights.
-          content:
-            application/json:
-              example: "ERROR"
+          $ref: "#/components/responses/Unauthorized"
   /api/admin/accounts/{id}:
     parameters:
     - name: id
@@ -63,6 +96,8 @@ paths:
       required: true
     put:
       summary: Updates an user
+      security:
+        - BearerAuth: []
       description: Updates an existing user user
       requestBody:
         content:
@@ -73,28 +108,29 @@ paths:
         200:
           description: User successfully updated!
         401:
-          description: UNAUTHORIZED! User could not be updated because you don't have admin rights.
-          content:
-            application/json:
-              example: "ERROR"
+          $ref: "#/components/responses/Unauthorized"
         404:
-          description: User not found
-          content:
-            application/json:
-              example: "Not Found"
+          $ref: "#/components/responses/NotFound"
     delete:
       summary: Deletes an user.
+      security:
+        - BearerAuth: []
       description: Deletes an user using its ID.
       responses: 
         200:
           description: User successfully deleted!
+        401:
+          $ref: "#/components/responses/Unauthorized"
         404:
-          description: User not found
-          content:
-            application/json:
-              example: "Not Found"
+          $ref: "#/components/responses/NotFound"
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: An error has ocurred
     Create-Account:
       type: object
       properties:
@@ -146,5 +182,31 @@ components:
       type: array
       items:
        $ref: "#/components/schemas/Account"
+    Account-Login:
+      type: object
+      properties:
+        email: 
+          type: string
+          example: johndoe@example.com
+        password:
+          type: string
+          example: John123!
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
 
 
