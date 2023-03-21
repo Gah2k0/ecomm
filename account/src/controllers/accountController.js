@@ -2,7 +2,7 @@ import Account from '../models/Account.js';
 import validateAccount from '../validations/accountValidation.js';
 import hashPassword from '../utils/passwordHashing.js';
 import createJwtToken from '../auth/createToken.js';
-import { addToken } from '../../redis/blacklistFunctions.js';
+import addToken from '../../redis/blacklistFunctions.js';
 
 class AccountController {
   static getAllAccounts = async (_req, res) => {
@@ -80,7 +80,11 @@ class AccountController {
   };
 
   static logout = async (req, res) => {
-    const { token } = req;
+    const { authorization } = req.headers;
+    let token;
+    if (authorization.startsWith('Bearer ')) {
+      token = authorization.substring(7, authorization.length);
+    }
     await addToken(token);
     res.status(204).send();
   };

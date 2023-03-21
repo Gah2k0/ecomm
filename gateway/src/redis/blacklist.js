@@ -2,7 +2,7 @@ import redis from 'redis';
 
 const blacklist = redis.createClient({
   prefix: 'blacklist:',
-  host: 'redis',
+  host: 'redis'
 });
 
 blacklist.on('connect', () => {

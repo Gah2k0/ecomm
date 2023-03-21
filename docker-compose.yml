@@ -12,7 +12,7 @@ services:
       - mongodb
       - redis
       
-  product-container:
+  product:
     build: ./product/
     ports:
       - 3002:3002
@@ -46,14 +46,33 @@ services:
       - mysql
       - redis
 
+  api-gateway:
+    build: ./gateway/
+    ports:
+      - 3000:3000
+    volumes:
+      - ./gateway:/app-node
+    environment:
+      - PRODUCT_HOST=product
+      - FINANCE_HOST=finance
+      - ACCOUNT_HOST=account
+      - ORDER_HOST=order
+    depends_on:
+      - account
+      - product
+      - finance 
+      - order
+
   mongodb:
     container_name: mongo-ecomm
-    image: mongo
+    image: mongo:5
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=secret
     ports:
       - "27017:27017"
+    volumes:
+      - db-mongo-ecomm:/data/db
 
   mysql:
     container_name: mysql-ecomm

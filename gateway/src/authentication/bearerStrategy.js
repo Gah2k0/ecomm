@@ -1,7 +1,9 @@
-const BearerStrategy = require('passport-http-bearer').Strategy;
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
-const tokenExists = require('../../redis/blacklistFunctions.js');
+import bearerStrategy from 'passport-http-bearer';
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import tokenExists from '../redis/blacklistFunctions.js';
+
+const BearerStrategy = bearerStrategy.Strategy;
 
 async function verifyTokenOnBlacklist(token) {
   const isTokenOnBlacklist = await tokenExists(token);

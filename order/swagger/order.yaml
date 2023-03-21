@@ -3,10 +3,17 @@ info:
   title: Ecomm - Order
   description: API to create and search for orders of the Order API
   version: 0.0.1
+servers:
+  - url: http://localhost:3000
+    description: API Gateway
+  - url: http://localhost:3001
+    description: The service direct address(does not authenticate)
 paths:
   /api/orders:
     post:
       summary: Creates a new order.
+      security:
+        - BearerAuth: []
       description: Receives a new order and saves it in the database.
       requestBody:
         content:
@@ -16,8 +23,10 @@ paths:
       responses:
         201: 
           description: Order successfully created!
-        400: 
-          description: ERROR! Could not completed the order.
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
   /api/orders/{id}:
     parameters:
     - name: id
@@ -27,6 +36,8 @@ paths:
       required: true
     get:
       summary: Searches for an order
+      security:
+        - BearerAuth: []
       description: Searches for a specific order using its ID as a parameter
       responses:
         200:
@@ -35,11 +46,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Order"
+        400:
+          description: The provided client does not exist
+        401:
+          $ref: "#/components/responses/Unauthorized"
         404:
-          description: Order not found
-          content:
-            application/json:
-              example: "Not Found"
+          $ref: "#/components/responses/NotFound"
   /api/orders/{id}/confirm/{paymentId}:
     parameters:
     - name: id
@@ -54,6 +66,8 @@ paths:
       required: true
     patch:
       summary: Confirms an order
+      security:
+        - BearerAuth: []
       description: Confirms an order using a valid payment 
       responses:
         200:
@@ -62,15 +76,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Confirm-order-response"
-        404:
-          description: Order does not exist
-          content:
-            application/json:
-              example: This order does not exist
         400:
           description: Client does not exist or payment could not be confirmed
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: An error has ocurred
     Create-Order:
       type: object
       properties:
@@ -162,5 +181,22 @@ components:
     #   type: array
     #   items:
     #   $ref: "#/components/schemas/Order"
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
 
 
