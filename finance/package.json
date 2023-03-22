@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "lint": "eslint api"
   },
   "author": "Gabriel Francisco",
   "license": "ISC",

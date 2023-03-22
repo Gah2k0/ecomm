@@ -6,7 +6,7 @@ function isDateValid(date) {
   if (Number(month) > 12 || Number(month) < 1) { return false; }
   const formattedDate = new Date(`${month}/1/${year}`);
   const actualDate = new Date();
-  if (formattedDate.getYear() < actualDate.getYear() || (formattedDate.getMonth() <= actualDate.getMonth() && formattedDate.getYear() == actualDate.getYear())) { return false; }
+  if (formattedDate.getYear() < actualDate.getYear() || (formattedDate.getMonth() <= actualDate.getMonth() && formattedDate.getYear() === actualDate.getYear())) { return false; }
   return true;
 }
 

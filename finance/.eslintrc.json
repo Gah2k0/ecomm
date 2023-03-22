@@ -23,6 +23,7 @@
               "ignoreTemplateLiterals": true
             }
           ],
-          "linebreak-style": 0
+          "linebreak-style": 0,
+          "prefer-regex-literals": 0
     }
 }
