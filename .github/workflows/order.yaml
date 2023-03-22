@@ -5,8 +5,6 @@ on:
     paths:
       - "./order/**"
       - ".github/workflows/order.yaml"
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   test:
@@ -19,7 +17,9 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm ci
+        run: /- 
+          cd order
+          npm ci
 
 
       - name: Run tests
