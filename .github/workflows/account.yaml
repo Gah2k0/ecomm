@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: /- 
           cd account
-          npm ci
+          npm install
 
 
       - name: Run tests
