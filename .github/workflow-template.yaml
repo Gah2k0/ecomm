@@ -22,7 +22,6 @@ jobs:
           cd {{SERVICE}}
           npm install
 
-
       - name: Run tests
         run: |-
           cd {{SERVICE}}

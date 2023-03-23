@@ -94,7 +94,30 @@ services:
     ports:
     - 6379:6379
 
+  zookeeper:
+    container_name: zookeeper-ecomm
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  
+  kafka:
+    container_name: kafka-ecomm
+    image: bitnami/kafka
+    ports:
+      - 9092:9092
+    volumes:
+    - kafka-persistence:/bitnami/kafka
+    restart: always
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
 volumes:
   db-mongo-ecomm:
   db-mysql-ecomm:
   redis_data:
+  kafka-persistence:
