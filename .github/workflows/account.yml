@@ -21,6 +21,5 @@ jobs:
         working-directory: ./account
 
       - name: Run tests
-        run: |-
-          cd account
-          npm test
+        run:  npm test
+        working-directory: ./account
