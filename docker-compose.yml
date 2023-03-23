@@ -63,6 +63,13 @@ services:
       - finance 
       - order
 
+  invoice:
+    build: ./invoice/
+    volumes:
+      - ./invoice:/app-node
+    depends_on:
+      - kafka
+
   mongodb:
     container_name: mongo-ecomm
     image: mongo:5
@@ -107,8 +114,8 @@ services:
     image: bitnami/kafka
     ports:
       - 9092:9092
-    volumes:
-    - kafka-persistence:/bitnami/kafka
+    # volumes:
+    # - kafka-persistence:/bitnami/kafka
     restart: always
     environment:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
@@ -120,4 +127,4 @@ volumes:
   db-mongo-ecomm:
   db-mysql-ecomm:
   redis_data:
-  kafka-persistence:
+  # kafka-persistence:
