@@ -1,7 +1,10 @@
 const { Kafka } = require('kafkajs');
 
+const KAFKA_HOST = process.env.KAFKA_HOST || 'localhost'
+const KAFKA_PORT = process.env.KAFKA_PORT || '9092'
+
 const kafka = new Kafka({
-    brokers: ['kafka:9092'],
+    brokers: [`${KAFKA_HOST}:${KAFKA_PORT}`],
 })
 
 const consumer = kafka.consumer({ groupId: 'test-group' });

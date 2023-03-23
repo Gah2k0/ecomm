@@ -42,6 +42,8 @@ services:
       - ./finance:/app-node
     environment:
       - DB_HOST=mysql
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=9092
     depends_on:
       - mysql
       - redis
@@ -67,6 +69,9 @@ services:
     build: ./invoice/
     volumes:
       - ./invoice:/app-node
+    environment:
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=9092
     depends_on:
       - kafka
 
