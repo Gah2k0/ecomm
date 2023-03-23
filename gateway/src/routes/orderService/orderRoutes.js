@@ -8,8 +8,8 @@ const orderServiceUrl = `http://${host}:3003`;
 const orderRoutes = express.Router();
 
 orderRoutes
-    .get('/api/orders/:id', authBearerMiddleware, httpProxy(orderServiceUrl))
-    .post('/api/orders', authBearerMiddleware, httpProxy(orderServiceUrl))
-    .patch('/api/orders/:id/confirm/:paymentId', authBearerMiddleware, httpProxy(orderServiceUrl));
+  .get('/api/orders/:id', authBearerMiddleware, httpProxy(orderServiceUrl))
+  .post('/api/orders', authBearerMiddleware, httpProxy(orderServiceUrl))
+  .patch('/api/orders/:id/confirm/:paymentId', authBearerMiddleware, httpProxy(orderServiceUrl));
 
 export default orderRoutes;
