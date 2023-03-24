@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import redis from 'redis';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
   it, expect, describe, beforeAll, afterAll,
@@ -6,7 +7,6 @@ import {
 import request from 'supertest';
 import dotenv from 'dotenv';
 import app from '../../src/app.js';
-import blacklist from '../../redis/blacklist.js';
 
 dotenv.config();
 
@@ -14,10 +14,17 @@ const DB_HOST = process.env.DB_HOST || 'localhost';
 
 beforeAll(async () => {
   await mongoose.connect(`mongodb://admin:secret@${DB_HOST}:27017/ecomm-account-test?authSource=admin`);
+  redis.createClient({
+    prefix: 'blacklist:',
+    host: 'redis',
+  });
 });
 
 afterAll(async () => {
   await mongoose.connection.close();
+  process.on('exit', () => {
+    redis.quit();
+  });
 });
 
 describe('Account Controller', () => {
