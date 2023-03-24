@@ -11,10 +11,11 @@ import app from '../../src/app.js';
 dotenv.config();
 
 const DB_HOST = process.env.DB_HOST || 'localhost';
+let client;
 
 beforeAll(async () => {
   await mongoose.connect(`mongodb://admin:secret@${DB_HOST}:27017/ecomm-account-test?authSource=admin`);
-  await redis.createClient({
+  client = redis.createClient({
     prefix: 'blacklist:',
     host: 'redis',
   });
@@ -22,7 +23,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await mongoose.connection.close();
-  await redis.quit();
+  await client.quit();
 });
 
 describe('Account Controller', () => {
