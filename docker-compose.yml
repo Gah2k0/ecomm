@@ -96,6 +96,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
+      - ./dbInit:/docker-entrypoint-initdb.d
       - db-mysql-ecomm:/var/lib/mysql
 
   redis:
