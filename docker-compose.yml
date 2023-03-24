@@ -70,6 +70,7 @@ services:
     volumes:
       - ./invoice:/app-node
     environment:
+      - DB_HOST=mysql
       - KAFKA_HOST=kafka
       - KAFKA_PORT=9092
     depends_on:
