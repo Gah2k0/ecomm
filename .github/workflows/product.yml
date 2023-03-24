@@ -9,24 +9,24 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Start containers
-      run: docker-compose -f "docker-compose.yml" up -d --build
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d --build
 
-    - name: Install Node
-    - uses: actions/setup-node@v2
-      with:
-        node-version: 18
+      - name: Install Node
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18
 
-    - name: Install dependencies
-      run: npm install
-      working-directory: ./product
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./product
 
-    - name: Run tests
-      run:  npm test
-      working-directory: ./product
+      - name: Run tests
+        run:  npm test
+        working-directory: ./product
 
-    - name: Stop containers
-      if: always()
-      run: docker-compose -f "docker-compose.yml" down
+      - name: Stop containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down
