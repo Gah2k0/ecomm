@@ -1,4 +1,4 @@
-name: "account"
+name: "finance"
 
 on:
   push:
@@ -20,11 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./account
+        working-directory: ./finance
 
       - name: Run tests
         run:  npm test
-        working-directory: ./account
+        working-directory: ./finance
 
       - name: Stop containers
         run: docker-compose -f "docker-compose.yml" down
