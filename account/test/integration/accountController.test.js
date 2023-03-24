@@ -14,7 +14,7 @@ const DB_HOST = process.env.DB_HOST || 'localhost';
 
 beforeAll(async () => {
   await mongoose.connect(`mongodb://admin:secret@${DB_HOST}:27017/ecomm-account-test?authSource=admin`);
-  redis.createClient({
+  await redis.createClient({
     prefix: 'blacklist:',
     host: 'redis',
   });
@@ -22,9 +22,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await mongoose.connection.close();
-  process.on('exit', () => {
-    redis.quit();
-  });
+  await redis.quit();
 });
 
 describe('Account Controller', () => {
