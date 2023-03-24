@@ -23,7 +23,7 @@ jobs:
         working-directory: ./finance
 
       - name: Running the DB Migrations
-        run: npx sequelize-cli db:migrate 
+        run: npx sequelize-cli db:migrate --env test
         working-directory: ./finance
 
 
