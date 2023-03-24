@@ -42,6 +42,8 @@ services:
       - ./finance:/app-node
     environment:
       - DB_HOST=mysql
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=9092
     depends_on:
       - mysql
       - redis
@@ -63,6 +65,17 @@ services:
       - finance 
       - order
 
+  invoice:
+    build: ./invoice/
+    volumes:
+      - ./invoice:/app-node
+    environment:
+      - DB_HOST=mysql
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=9092
+    depends_on:
+      - kafka
+
   mongodb:
     container_name: mongo-ecomm
     image: mongo:5
@@ -83,6 +96,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
+      - ./dbInit:/docker-entrypoint-initdb.d
       - db-mysql-ecomm:/var/lib/mysql
 
   redis:
@@ -94,7 +108,30 @@ services:
     ports:
     - 6379:6379
 
+  zookeeper:
+    container_name: zookeeper-ecomm
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  
+  kafka:
+    container_name: kafka-ecomm
+    image: bitnami/kafka
+    ports:
+      - 9092:9092
+    # volumes:
+    # - kafka-persistence:/bitnami/kafka
+    restart: always
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
 volumes:
   db-mongo-ecomm:
   db-mysql-ecomm:
   redis_data:
+  # kafka-persistence:

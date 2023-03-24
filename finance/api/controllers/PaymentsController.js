@@ -1,6 +1,7 @@
 const database = require('../models/index.js');
 const validatePayment = require('../validations/paymentValidation.js');
 const PAYMENT_STATUS = require('../constants/constants.js');
+const sendInvoiceMessage = require('../utils/invoiceProducer.js');
 
 function getEffectiveProductPrice(product) {
   return {
@@ -82,8 +83,10 @@ class PaymentsController {
 
       await database.sequelize.transaction(async (transaction) => {
         await database.Payments.update({ status: PAYMENT_STATUS.CONFIRMADO }, { where: { id: Number(id) } }, { transaction });
-        await database.Invoices.create({ description: orderDescription, payment_id: id }, { transaction });
+        // await database.Invoices.create({ description: orderDescription, payment_id: id }, { transaction });
       });
+
+      await sendInvoiceMessage(id, orderDescription);
 
       const confirmedPayment = await findPaymentById(id);
       return res.status(200).json(confirmedPayment);

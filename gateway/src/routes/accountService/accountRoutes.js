@@ -17,4 +17,3 @@ accountRoutes
   .delete('/api/admin/accounts/:id', authBearerMiddleware, httpProxy(accountServiceUrl));
 
 export default accountRoutes;
-
